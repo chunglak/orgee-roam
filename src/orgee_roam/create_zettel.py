@@ -11,14 +11,13 @@ from slugify import slugify  # type:ignore
 
 from orgee.orgnode import OrgNode
 from orgee.util import dump_property
-
-from .config import get_config
 from .zettel import Zettel
 
 FORBIDDEN_CHARS = '/\\:*"?<>|'
 
 
 def create_zettel(
+    zk_root: str,
     title: str,
     aliases: set[str] | None = None,
     tags: set[str] | None = None,
@@ -29,16 +28,12 @@ def create_zettel(
     file_properties: list[str] | None = None,
     file_other_meta: list[tuple[str, str]] | None = None,
     dt: datetime.datetime | None = None,
-    root: str | None = None,
     filename: str | None = None,
     zid: str | None = None,
     overwrite=False,
 ) -> Zettel:
     if not dt:
         dt = datetime.datetime.now()
-    if not root:
-        config, _ = get_config()
-        root = config["zettelkasten_root"]
     if not zid:
         zid = str(uuid.uuid4())
 
@@ -82,9 +77,9 @@ def create_zettel(
         if file_other_meta:
             rm.other_meta.extend(file_other_meta)
         if not filename:
-            filename = mk_fn(s=title, dt=dt, root=root)
+            filename = mk_fn(s=title, dt=dt, root=zk_root)
         else:
-            filename = os.path.join(root, filename)
+            filename = os.path.join(zk_root, filename)
         if os.path.isfile(filename) and not overwrite:
             raise Exception(f"There is already a file named {filename}!")
         node.dump_root(filename)

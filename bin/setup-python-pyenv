@@ -36,6 +36,7 @@ PACKAGES=(
   python-slugify[unidecode]
   wikipedia-api
   orgee
+  kombini
 )
 pip install --upgrade pip
 pip install wheel

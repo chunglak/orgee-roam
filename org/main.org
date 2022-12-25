@@ -75,6 +75,7 @@ GPL-3.0-or-later
 python-slugify[unidecode]
 wikipedia-api
 orgee
+kombini
 #+end_src
 * Default tangled files
 Don't add anything here, it's common to all projects

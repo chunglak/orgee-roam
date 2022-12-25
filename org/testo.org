@@ -50,9 +50,25 @@ runf(func)  # pylint: disable=undefined-variable
 
 #+RESULTS:
 : ({'roam_cache': '/home/chunglak/.emacs.d/orgzettel-cache.json',
-:   'zettelkasten_root': '/home/chunglak/orgzettel'},
+:   'zettelkasten_root': '/home/chunglak/monobox/zettel'},
 :  '/home/chunglak/.orgee-roam.ini')
-: Task finished in 0.00s
+: Task finished in 0.01s
+
+* Zettelkasten
+#+begin_src jupyter-python :async yes
+def func():
+    # pylint: disable=import-outside-toplevel
+    from orgee_roam.zettelkasten import ZettelKasten
+
+    zk = ZettelKasten()
+    zs = zk.zettels()
+
+
+runf(func)  # pylint: disable=undefined-variable
+#+end_src
+
+#+RESULTS:
+: Task finished in 2.20s
 
 * Func
 #+begin_src jupyter-python :async yes
