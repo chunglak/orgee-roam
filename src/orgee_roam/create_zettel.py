@@ -4,16 +4,15 @@ import datetime
 import logging
 import os.path
 import time
-import unicodedata
 import uuid
 
 from slugify import slugify  # type:ignore
 
 from orgee.orgnode import OrgNode
 from orgee.util import dump_property
-from .zettel import Zettel
+from kombini.safe_filename import safe_filename_no_diacritic
 
-FORBIDDEN_CHARS = '/\\:*"?<>|'
+from .zettel import Zettel
 
 
 def create_zettel(
@@ -114,20 +113,3 @@ def mk_fn(s: str, dt: datetime.datetime, root: str) -> str:
             return ffn
         i += 1
         fn = safe_filename_no_diacritic(f"{s0}-{i}.org")
-
-
-def safe_filename(fn: str, rchar="_") -> str:
-    fn = "".join(rchar if c in FORBIDDEN_CHARS else c for c in fn)
-    return fn
-
-
-def safe_filename_no_diacritic(fn: str) -> str:
-    return safe_filename(remove_diacritics(fn.strip()))
-
-
-def remove_diacritics(s: str) -> str:
-    return "".join(
-        c
-        for c in unicodedata.normalize("NFKD", s)
-        if unicodedata.category(c) != "Mn"
-    )

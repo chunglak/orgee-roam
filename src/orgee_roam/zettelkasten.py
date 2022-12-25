@@ -1,15 +1,12 @@
 from __future__ import annotations  # PEP 585
 
 import datetime
-import logging
-import os.path
-import uuid
 from typing import ValuesView
 
 from orgee.orgnode import OrgNode
 
 from .config import get_config
-from .cache.zettelkasten_cache import ZettelkastenCache
+from .zettelkasten_cache import ZettelkastenCache
 from .zettel import Zettel
 from .create_zettel import create_zettel
 
@@ -30,7 +27,7 @@ class ZettelKasten:
         self.update_cache(update_cache)
         return self.cache.zettels
 
-    def update_cache(self, update_cache: bool):
+    def update_cache(self, update_cache: bool = True):
         if update_cache:
             self.cache.update_cache()
 

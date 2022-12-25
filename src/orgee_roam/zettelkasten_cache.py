@@ -45,13 +45,20 @@ class ZettelkastenCache(MutableMapping):
 
     def is_json_outdated(self) -> bool:
         if os.path.isfile(self.cache_fn):
-            return os.path.getmtime(self.cache_fn) < max(
-                os.path.getmtime(fn) for fn in self.org_files()
+            return os.path.getmtime(self.cache_fn) < os.path.getmtime(
+                self.zettelkasten_root
             )
         else:
             return True
 
     def update_cache(self, force=False) -> int:
+        def org_files() -> Iterator[str]:
+            for root, _, files in os.walk(self.zettelkasten_root):
+                for fn in files:
+                    if not is_org_file(fn):
+                        continue
+                    yield os.path.join(root, fn)
+
         def file_zettels() -> dict[str, list[Zettel]]:
             dic: dict = {}
             for zettel in self.zettels:
@@ -60,7 +67,7 @@ class ZettelkastenCache(MutableMapping):
 
         if not force and not self.is_json_outdated():
             return 0
-        all_files = set(self.org_files())
+        all_files = set(org_files())
         existing_files = {zettel.filename for zettel in self.zettels}
         deleted_files = existing_files - all_files
         fndic = file_zettels()
@@ -160,22 +167,12 @@ class ZettelkastenCache(MutableMapping):
             logging.info(
                 "%d node%s changed", changes, "s" if changes > 1 else ""
             )
-            self.save_json()
             # Reset dics_by_prop memoization
             self._dics_by_prop = {}
         else:
             logging.info("No node changed")
+        self.save_json()
         return changes
-
-    def org_files(self) -> Iterator[str]:
-        """
-        Return a list of all org files in directory
-        """
-        for root, _, files in os.walk(self.zettelkasten_root):
-            for fn in files:
-                if not is_org_file(fn):
-                    continue
-                yield os.path.join(root, fn)
 
     def save_json(self):
         recs = [
