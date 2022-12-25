@@ -6,6 +6,7 @@
 #+todo: PATH | DONE
 
 * Log
+** [2022-12-25 Sun 19:07] Uploaded to pypi
 ** [2022-12-25 Sun] Uploaded to github
 ** [2022-12-25 Sun] v0.0.1
 ** [2022-12-25 Sun] Project creation
