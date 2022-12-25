@@ -76,7 +76,8 @@ python-slugify[unidecode]
 wikipedia-api
 orgee
 #+end_src
-* Tangled files
+* Default tangled files
+Don't add anything here, it's common to all projects
 ** PATH .envrc
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/.envrc"
@@ -108,7 +109,7 @@ PATH_add bin
 # python
 __pycache__
 # egg
-/src/<<project-name>>.egg-info
+/src/*.egg-info
 #+end_src
 ** PATH pyproject.toml
 :PROPERTIES:
@@ -363,6 +364,14 @@ def func():
 runf(func)  # pylint: disable=undefined-variable
 ,#+end_src
 #+end_src
+* Project-specific tangled files
+** PATH bin
+:PROPERTIES:
+:header-args:bash: :shebang #!/bin/bash
+:file-path: "/home/chunglak/projects/orgee-roam/bin"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/bin][bin]]
+:END:
+#+call: make-file-path()
 * Elisp
 ** PATH make-file-path
 :PROPERTIES:

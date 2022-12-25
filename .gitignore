@@ -9,4 +9,4 @@
 # python
 __pycache__
 # egg
-/src/orgee-roam.egg-info
+/src/*.egg-info
