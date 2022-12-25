@@ -1,10 +1,15 @@
-#+TITLE: Project tangled files
+#+TITLE: Project main file
 #+PROPERTY: header-args:emacs-lisp :eval yes :tangle no
 #+PROPERTY: header-args :noweb yes :eval no
 #+PROPERTY: header-args+ :tangle (eval (car (read-from-string (org-entry-get nil "file-path" t))))
 #+PROPERTY: file-path (file-name-directory (directory-file-name (file-name-directory (buffer-file-name))))
 #+todo: PATH | DONE
 
+* Log
+** [2022-12-25 Sun] Uploaded to github
+** [2022-12-25 Sun] v0.0.1
+** [2022-12-25 Sun] Project creation
+* [[https://github.com/chunglak/orgee-roam][GitHub - chunglak/orgee-roam]]
 * Configuration
 :PROPERTIES:
 :HEADER-ARGS+: :tangle no
@@ -55,48 +60,8 @@ GPL-3.0-or-later
 #+begin_src conf
 3.10
 #+end_src
-* Elisp
-** PATH make-file-path
-:PROPERTIES:
-:file-path: "/home/chunglak/projects/orgee-roam/make-file-path"
-:file-path-link: [[file:/home/chunglak/projects/orgee-roam/make-file-path][make-file-path]]
-:END:
-#+name: make-file-path
-#+header: :results silent
-#+begin_src emacs-lisp
-(org-todo "PATH")
-(let* (
-       ;;name of the property we use to store the full path
-       (prop "file-path")
-       (proplink "file-path-link")
-       ;;get heading without anything
-       (h (org-get-heading t t t t))
-       ;;if heading has a statistics cookie, remove it
-       (m (string-match "\\[" h))
-       (hh (string-trim (if m (substring h 0 m) h)))
-       )
-  (org-entry-delete nil prop)
-  (let* (
-         (dir0 (org-entry-get nil prop t))
-         (dir (if (and dir0 (> (length dir0) 0)) dir0 "\"./\""))
-         (fullpath (expand-file-name hh (eval (car (read-from-string (string-trim dir))))))
-         (orglink (format "[[file:%s][%s]]" fullpath hh))
-         )
-    (org-entry-put nil prop (format "\"%s\""fullpath))
-    (org-entry-delete nil proplink)
-    (org-entry-put nil proplink orglink)
-    )
-  )
-#+end_src
-** make-dir
-#+name: make-dir
-#+header: :var target=(eval (car (read-from-string (org-entry-get nil "file-path" t)))) :results silent
-#+header: :results silent
-#+begin_src emacs-lisp
-  (make-directory target t)
-#+end_src
-* ----------
-* PATH .envrc
+* Tangled files
+** PATH .envrc
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/.envrc"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/.envrc][.envrc]]
@@ -109,7 +74,7 @@ export PROJECT_ROOT="$PWD"
 
 PATH_add bin
 #+end_src
-* PATH .gitignore
+** PATH .gitignore
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/.gitignore"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/.gitignore][.gitignore]]
@@ -129,7 +94,7 @@ __pycache__
 # egg
 /src/<<project-name>>.egg-info
 #+end_src
-* PATH pyproject.toml
+** PATH pyproject.toml
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/pyproject.toml"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/pyproject.toml][pyproject.toml]]
@@ -143,7 +108,7 @@ build-backend = "setuptools.build_meta"
 [tool.black]
 line-length = 80
 #+end_src
-* PATH setup.cfg
+** PATH setup.cfg
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/setup.cfg"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/setup.cfg][setup.cfg]]
@@ -192,7 +157,7 @@ where = src
 exclude =
     test*
 #+end_src
-* PATH README.md
+** PATH README.md
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/README.md"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/README.md][README.md]]
@@ -206,7 +171,7 @@ exclude =
 $ pip install <<project-name>>
 ```
 #+end_src
-* PATH .python-version
+** PATH .python-version
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/.python-version"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/.python-version][.python-version]]
@@ -216,8 +181,8 @@ Name of pyenv venv
 #+begin_src conf
 <<project-name>>
 #+end_src
-* ----------
-* PATH bin
+** ----------
+** PATH bin
 :PROPERTIES:
 :header-args:bash: :shebang #!/bin/bash
 :file-path: "/home/chunglak/projects/orgee-roam/bin"
@@ -226,7 +191,7 @@ Name of pyenv venv
 #+call: make-file-path()
 #+call: make-dir()
 Commands specific to the project
-** PATH mypy.ini
+*** PATH mypy.ini
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/bin/mypy.ini"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/bin/mypy.ini][mypy.ini]]
@@ -236,7 +201,7 @@ Commands specific to the project
   [mypy]
   mypy_path = ../src
 #+end_src
-** PATH setup-python-pyenv
+*** PATH setup-python-pyenv
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/bin/setup-python-pyenv"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/bin/setup-python-pyenv][setup-python-pyenv]]
@@ -288,7 +253,7 @@ pip install "${PACKAGES[@]}"
 pip install ipykernel
 ipython kernel install --user --name=$venv
 #+end_src
-* PATH src
+** PATH src
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/src"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/src][src]]
@@ -296,7 +261,7 @@ ipython kernel install --user --name=$venv
 #+call: make-file-path()
 #+call: make-dir()
 Put code here
-* PATH tests
+** PATH tests
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/tests"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/tests][tests]]
@@ -304,15 +269,15 @@ Put code here
 #+call: make-file-path()
 #+call: make-dir()
 Put test suite here
-* ----------
-* PATH org
+** ----------
+** PATH org
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/org"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/org][org]]
 :END:
 #+call: make-file-path()
 No need to create this dir: it should pre-exist
-** PATH testo.org
+*** PATH testo.org
 :PROPERTIES:
 :file-path: "/home/chunglak/projects/orgee-roam/org/testo.org"
 :file-path-link: [[file:/home/chunglak/projects/orgee-roam/org/testo.org][testo.org]]
@@ -363,4 +328,44 @@ def func():
 
 runf(func)  # pylint: disable=undefined-variable
 ,#+end_src
+#+end_src
+* Elisp
+** PATH make-file-path
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/make-file-path"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/make-file-path][make-file-path]]
+:END:
+#+name: make-file-path
+#+header: :results silent
+#+begin_src emacs-lisp
+(org-todo "PATH")
+(let* (
+       ;;name of the property we use to store the full path
+       (prop "file-path")
+       (proplink "file-path-link")
+       ;;get heading without anything
+       (h (org-get-heading t t t t))
+       ;;if heading has a statistics cookie, remove it
+       (m (string-match "\\[" h))
+       (hh (string-trim (if m (substring h 0 m) h)))
+       )
+  (org-entry-delete nil prop)
+  (let* (
+         (dir0 (org-entry-get nil prop t))
+         (dir (if (and dir0 (> (length dir0) 0)) dir0 "\"./\""))
+         (fullpath (expand-file-name hh (eval (car (read-from-string (string-trim dir))))))
+         (orglink (format "[[file:%s][%s]]" fullpath hh))
+         )
+    (org-entry-put nil prop (format "\"%s\""fullpath))
+    (org-entry-delete nil proplink)
+    (org-entry-put nil proplink orglink)
+    )
+  )
+#+end_src
+** make-dir
+#+name: make-dir
+#+header: :var target=(eval (car (read-from-string (org-entry-get nil "file-path" t)))) :results silent
+#+header: :results silent
+#+begin_src emacs-lisp
+  (make-directory target t)
 #+end_src
