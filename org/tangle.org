@@ -1,0 +1,366 @@
+#+TITLE: Project tangled files
+#+PROPERTY: header-args:emacs-lisp :eval yes :tangle no
+#+PROPERTY: header-args :noweb yes :eval no
+#+PROPERTY: header-args+ :tangle (eval (car (read-from-string (org-entry-get nil "file-path" t))))
+#+PROPERTY: file-path (file-name-directory (directory-file-name (file-name-directory (buffer-file-name))))
+#+todo: PATH | DONE
+
+* Configuration
+:PROPERTIES:
+:HEADER-ARGS+: :tangle no
+:END:
+** Project name
+#+name: project-name
+#+begin_src conf
+orgee-roam
+#+end_src
+** Project version
+#+name: project-version
+#+begin_src conf
+0.0.1
+#+end_src
+** Description
+#+name: project-description
+#+begin_src conf
+Tools to manage a org-roam zettelkasten
+#+end_src
+** URL
+#+name: project-url
+#+begin_src conf
+https://github.com/chunglak/<<project-name>>
+#+end_src
+** Author
+*** Name
+#+name: author-name
+#+begin_src conf
+Alfred Leung
+#+end_src
+*** Email
+#+name: author-email
+#+begin_src conf
+chunglak@gmail.com
+#+end_src
+** License
+#+name: project-license
+#+begin_src conf
+GPL-3.0-or-later
+#+end_src
+** Python version
+#+name: python-version
+#+begin_src conf
+3.10.8
+#+end_src
+** Minimal python version
+#+name: minimal-python-version
+#+begin_src conf
+3.10
+#+end_src
+* Elisp
+** PATH make-file-path
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/make-file-path"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/make-file-path][make-file-path]]
+:END:
+#+name: make-file-path
+#+header: :results silent
+#+begin_src emacs-lisp
+(org-todo "PATH")
+(let* (
+       ;;name of the property we use to store the full path
+       (prop "file-path")
+       (proplink "file-path-link")
+       ;;get heading without anything
+       (h (org-get-heading t t t t))
+       ;;if heading has a statistics cookie, remove it
+       (m (string-match "\\[" h))
+       (hh (string-trim (if m (substring h 0 m) h)))
+       )
+  (org-entry-delete nil prop)
+  (let* (
+         (dir0 (org-entry-get nil prop t))
+         (dir (if (and dir0 (> (length dir0) 0)) dir0 "\"./\""))
+         (fullpath (expand-file-name hh (eval (car (read-from-string (string-trim dir))))))
+         (orglink (format "[[file:%s][%s]]" fullpath hh))
+         )
+    (org-entry-put nil prop (format "\"%s\""fullpath))
+    (org-entry-delete nil proplink)
+    (org-entry-put nil proplink orglink)
+    )
+  )
+#+end_src
+** make-dir
+#+name: make-dir
+#+header: :var target=(eval (car (read-from-string (org-entry-get nil "file-path" t)))) :results silent
+#+header: :results silent
+#+begin_src emacs-lisp
+  (make-directory target t)
+#+end_src
+* ----------
+* PATH .envrc
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/.envrc"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/.envrc][.envrc]]
+:END:
+#+call: make-file-path()
+direnv integration
+#+begin_src conf
+export PROJECT_NAME="<<project-name>>"
+export PROJECT_ROOT="$PWD"
+
+PATH_add bin
+#+end_src
+* PATH .gitignore
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/.gitignore"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/.gitignore][.gitignore]]
+:END:
+#+call: make-file-path()
+#+begin_src conf
+# env files
+.env*
+# include direnv files
+!.envrc
+# dist folder
+/dist
+# mypy
+.mypy_cache
+# python
+__pycache__
+# egg
+/src/<<project-name>>.egg-info
+#+end_src
+* PATH pyproject.toml
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/pyproject.toml"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/pyproject.toml][pyproject.toml]]
+:END:
+#+call: make-file-path()
+#+begin_src conf-toml
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 80
+#+end_src
+* PATH setup.cfg
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/setup.cfg"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/setup.cfg][setup.cfg]]
+:END:
+#+call: make-file-path()
+#+begin_src conf-toml
+[metadata]
+name = <<project-name>>
+version = <<project-version>>
+url = <<project-url>>
+author = <<author-name>>
+author_email = <<author-email>>
+description = <<project-description>>
+long_description = file: README.md
+long_description_content_type = text/markdown
+license = <<project-license>>
+
+[options]
+python_requires = >=<<minimal-python-version>>
+package_dir =
+    =src
+packages = find:
+
+install_requires =
+    orgee
+# install_requires =
+#     pandas == 1.4.1
+#     PyYAML >= 6.0
+#     typer
+
+# [options.extras_require]
+# notebook = jupyter>=1.0.0, matplotlib
+# dev =
+#     black==22.1.0
+#     flake8==4.0.1
+# These dependencies will only be installed if you ask for them, e.g. pip install -e ".[dev]" or pip install "example-0.1.0-py3-none-any.whl[dev,notebook]". Do not forget to quote the package name in those commands!
+
+# If you have any functions in your package that you would like to expose to be used as a command-line utility, you can add them to the console_scripts entry points. For example, if you have a function called main in example_module.py, then adding this to your setup.cfg will allow users to run my-example-utility as a shell command:
+
+# [options.entry_points]
+# console_scripts =
+#     my-example-utility = example.example_module:main
+
+[options.packages.find]
+where = src
+exclude =
+    test*
+#+end_src
+* PATH README.md
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/README.md"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/README.md][README.md]]
+:END:
+#+call: make-file-path()
+#+begin_src markdown
+# <<project-name>>
+<<project-description>>
+## Installation
+```shell
+$ pip install <<project-name>>
+```
+#+end_src
+* PATH .python-version
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/.python-version"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/.python-version][.python-version]]
+:END:
+#+call: make-file-path()
+Name of pyenv venv
+#+begin_src conf
+<<project-name>>
+#+end_src
+* ----------
+* PATH bin
+:PROPERTIES:
+:header-args:bash: :shebang #!/bin/bash
+:file-path: "/home/chunglak/projects/orgee-roam/bin"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/bin][bin]]
+:END:
+#+call: make-file-path()
+#+call: make-dir()
+Commands specific to the project
+** PATH mypy.ini
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/bin/mypy.ini"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/bin/mypy.ini][mypy.ini]]
+:END:
+#+call: make-file-path()
+#+begin_src conf
+  [mypy]
+  mypy_path = ../src
+#+end_src
+** PATH setup-python-pyenv
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/bin/setup-python-pyenv"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/bin/setup-python-pyenv][setup-python-pyenv]]
+:END:
+#+call: make-file-path()
+Create a pyenv venv for the project
+#+begin_src bash :shebang #!/bin/bash
+set -eu
+
+# Reset venv
+venv="<<project-name>>"
+python_version="<<python-version>>"
+if [[ $(pyenv versions | grep "$venv") ]]; then
+	pyenv virtualenv-delete -f $venv
+fi
+pyenv virtualenv $python_version $venv
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+pyenv activate $venv
+
+# Create .pth file
+PTHS=(
+	"$PROJECT_ROOT/src"
+)
+fn=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")/venv.pth
+echo "Write in file $fn"
+echo "# Site packages for virtualenv $venv" >"$fn"
+for pth in "${PTHS[@]}"; do
+	realpath "$pth" >>"$fn"
+done
+
+# Install dependencies
+PACKAGES=(
+  # Dev dependencies
+	black # Formatter
+	mypy # typing linter
+	pylint # linter
+  twine # to publish to pypi
+  pytest # testing framework
+  # Package dependencies
+  orgee
+)
+pip install --upgrade pip
+pip install wheel
+pip install "${PACKAGES[@]}"
+
+# Install jupyter kernel
+pip install ipykernel
+ipython kernel install --user --name=$venv
+#+end_src
+* PATH src
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/src"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/src][src]]
+:END:
+#+call: make-file-path()
+#+call: make-dir()
+Put code here
+* PATH tests
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/tests"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/tests][tests]]
+:END:
+#+call: make-file-path()
+#+call: make-dir()
+Put test suite here
+* ----------
+* PATH org
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/org"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/org][org]]
+:END:
+#+call: make-file-path()
+No need to create this dir: it should pre-exist
+** PATH testo.org
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/org/testo.org"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/org/testo.org][testo.org]]
+:END:
+#+call: make-file-path()
+Make copies of this file
+#+begin_src org
+,#+title: Testo
+,#+property: header-args:jupyter-python :kernel <<project-name>> :session testo
+
+,* Init
+,#+begin_src jupyter-python :async yes
+import logging, sys, time
+from IPython import get_ipython
+
+# Display stderr messages in output
+sys.stderr = sys.stdout
+# Setup root logger format
+logging.basicConfig(
+    level=logging.INFO,  # default is WARNING
+    format="%(asctime)s-%(module)s[%(funcName)s:%(lineno)s]\n"
+    "%(levelname)s-%(message)s",
+)
+# Enable auto-reload of imported code
+ipy = get_ipython()
+if "IPython.extensions.autoreload" not in sys.modules:
+    ipy.run_line_magic("load_ext", "autoreload")
+# Set external code to reload before each exec
+ipy.run_line_magic("autoreload", "2")
+
+
+def runf(func):
+    t0 = time.time()
+    r = func()
+    print(f"Task finished in {time.time()-t0:.2f}s")
+    return r
+
+
+print("Init done")
+,#+end_src
+
+,* Func
+,#+begin_src jupyter-python :async yes
+def func():
+    # pylint: disable=import-outside-toplevel
+    pass
+
+
+runf(func)  # pylint: disable=undefined-variable
+,#+end_src
+#+end_src

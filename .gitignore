@@ -1,0 +1,12 @@
+# env files
+.env*
+# include direnv files
+!.envrc
+# dist folder
+/dist
+# mypy
+.mypy_cache
+# python
+__pycache__
+# egg
+/src/orgee-roam.egg-info
