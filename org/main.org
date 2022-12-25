@@ -5,14 +5,9 @@
 #+PROPERTY: file-path (file-name-directory (directory-file-name (file-name-directory (buffer-file-name))))
 #+todo: PATH | DONE
 
-* Log
-** [2022-12-26 Mon 00:04] v0.0.2 (github, pypi)
-Main functions implemented
-** [2022-12-25 Sun 19:07] Uploaded to pypi
-** [2022-12-25 Sun] Uploaded to github
-** [2022-12-25 Sun] v0.0.1
-** [2022-12-25 Sun] Project creation
+* [[id:cfaa0825-1ab6-481d-a882-6838cd5aced3][Zettel]]
 * [[https://github.com/chunglak/orgee-roam][GitHub - chunglak/orgee-roam]]
+* [[https://pypi.org/project/orgee-roam/][orgee-roam · PyPI]]
 * Configuration
 :PROPERTIES:
 :HEADER-ARGS+: :tangle no

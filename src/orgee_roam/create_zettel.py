@@ -29,7 +29,7 @@ def create_zettel(
     dt: datetime.datetime | None = None,
     filename: str | None = None,
     zid: str | None = None,
-    overwrite=False,
+    overwrite: bool = False,
 ) -> Zettel:
     if not dt:
         dt = datetime.datetime.now()
