@@ -33,6 +33,8 @@ PACKAGES=(
   twine # to publish to pypi
   pytest # testing framework
   # Package dependencies
+  python-slugify[unidecode]
+  wikipedia-api
   orgee
 )
 pip install --upgrade pip

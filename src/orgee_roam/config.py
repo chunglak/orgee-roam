@@ -18,9 +18,7 @@ PATH_KEYS = ["roam_cache", "zettelkasten_root"]
 
 
 def get_config(fn: str | None = None) -> tuple[dict[str, str], str | None]:
-    locations = CONFIG_FILE_LOCATIONS
-    if fn:
-        locations = [fn] + locations
+    locations = [fn] if fn else CONFIG_FILE_LOCATIONS
     for loc in locations:
         if dic := parse_file(loc):
             return (dic, loc)

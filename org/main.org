@@ -29,6 +29,14 @@ orgee-roam
 #+begin_src conf
 Tools to manage a org-roam zettelkasten
 #+end_src
+** Long description
+#+name: project-long-description
+#+begin_src markdown
+## Installation
+```shell
+$ pip install <<project-name>>
+```
+#+end_src
 ** URL
 #+name: project-url
 #+begin_src conf
@@ -59,6 +67,13 @@ GPL-3.0-or-later
 #+name: minimal-python-version
 #+begin_src conf
 3.10
+#+end_src
+** Dependencies
+#+name: project-dependencies
+#+begin_src conf
+python-slugify[unidecode]
+wikipedia-api
+orgee
 #+end_src
 * Tangled files
 ** PATH .envrc
@@ -131,9 +146,11 @@ python_requires = >=<<minimal-python-version>>
 package_dir =
     =src
 packages = find:
+zip_safe = True
+include_package_data = True
 
 install_requires =
-    orgee
+    <<project-dependencies>>
 # install_requires =
 #     pandas == 1.4.1
 #     PyYAML >= 6.0
@@ -156,6 +173,10 @@ install_requires =
 where = src
 exclude =
     test*
+
+[options.package_data]
+,* =
+  ,*.typed
 #+end_src
 ** PATH README.md
 :PROPERTIES:
@@ -166,10 +187,8 @@ exclude =
 #+begin_src markdown
 # <<project-name>>
 <<project-description>>
-## Installation
-```shell
-$ pip install <<project-name>>
-```
+
+<<project-long-description>>
 #+end_src
 ** PATH .python-version
 :PROPERTIES:
@@ -243,7 +262,7 @@ PACKAGES=(
   twine # to publish to pypi
   pytest # testing framework
   # Package dependencies
-  orgee
+  <<project-dependencies>>
 )
 pip install --upgrade pip
 pip install wheel
@@ -252,6 +271,20 @@ pip install "${PACKAGES[@]}"
 # Install jupyter kernel
 pip install ipykernel
 ipython kernel install --user --name=$venv
+#+end_src
+*** PATH upload-to-pypi
+:PROPERTIES:
+:file-path: "/home/chunglak/projects/orgee-roam/bin/upload-to-pypi"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/bin/upload-to-pypi][upload-to-pypi]]
+:END:
+#+call: make-file-path()
+#+begin_src bash :shebang #!/bin/bash
+set -eu
+
+cd $PROJECT_ROOT
+rm -rf dist
+pyproject-build
+twine upload dist/*
 #+end_src
 ** PATH src
 :PROPERTIES:
@@ -277,15 +310,15 @@ Put test suite here
 :END:
 #+call: make-file-path()
 No need to create this dir: it should pre-exist
-*** PATH testo.org
+*** PATH template.org
 :PROPERTIES:
-:file-path: "/home/chunglak/projects/orgee-roam/org/testo.org"
-:file-path-link: [[file:/home/chunglak/projects/orgee-roam/org/testo.org][testo.org]]
+:file-path: "/home/chunglak/projects/orgee-roam/org/template.org"
+:file-path-link: [[file:/home/chunglak/projects/orgee-roam/org/template.org][template.org]]
 :END:
 #+call: make-file-path()
 Make copies of this file
 #+begin_src org
-,#+title: Testo
+,#+title: Template
 ,#+property: header-args:jupyter-python :kernel <<project-name>> :session testo
 
 ,* Init
