@@ -40,7 +40,7 @@ print("Init done")
 def func():
     # pylint: disable=import-outside-toplevel
     import pprint
-    from orgee_roam.config import get_config
+    from orgee_roam import get_config
 
     pprint.pprint(get_config())
 
@@ -49,19 +49,19 @@ runf(func)  # pylint: disable=undefined-variable
 #+end_src
 
 #+RESULTS:
-: ({'roam_cache': '/home/chunglak/.emacs.d/orgzettel-cache.json',
+: ({'roam_cache': '/home/chunglak/.emacs.d/orgzettel-cache-new.json',
 :   'zettelkasten_root': '/home/chunglak/monobox/zettel'},
 :  '/home/chunglak/.orgee-roam.ini')
-: Task finished in 0.01s
+: Task finished in 0.00s
 
 * Zettelkasten
 #+begin_src jupyter-python :async yes
 def func():
     # pylint: disable=import-outside-toplevel
-    from orgee_roam.zettelkasten import ZettelKasten
+    from orgee_roam import ZettelKasten
 
     zk = ZettelKasten()
-    zs = zk.zettels()
+    zs = zk.zettels
     print(len(list(zs)))
 
 
@@ -69,17 +69,17 @@ runf(func)  # pylint: disable=undefined-variable
 #+end_src
 
 #+RESULTS:
-: 33974
-: Task finished in 1.45s
+: 33978
+: Task finished in 4.25s
 
 * Add zettel
 #+begin_src jupyter-python :async yes
 def func():
     # pylint: disable=import-outside-toplevel
-    from orgee_roam.zettelkasten import ZettelKasten
+    from orgee_roam import ZettelKasten,make_zettel
 
     zk = ZettelKasten()
-    z = zk.create_zettel(title="My testo")
+    z = make_zettel(zk=zk,title="My testo")
     print(z)
 
 
@@ -87,38 +87,38 @@ runf(func)  # pylint: disable=undefined-variable
 #+end_src
 
 #+RESULTS:
-: 2022-12-25 23:26:14,701-create_zettel[create_zettel:85]
-: INFO-Created file /home/chunglak/monobox/zettel/20221225232614-my-testo.org for node My testo
-: 2022-12-25 23:26:29,267-zettelkasten_cache[update_cache:157]
-: INFO-Adding «My testo»
-: 2022-12-25 23:26:29,268-zettelkasten_cache[update_cache:160]
-: INFO-1 node changed
-: Zettel(uuid='52d84ec4-236b-4194-9c68-8080ba98848e', title='My testo', filename='/home/chunglak/monobox/zettel/20221225232614-my-testo.org', updated_ts=1671978374.7031791, lastchecked_ts=1671978374.7031791, zettel_hash='1e05cb4da8608fc6a38e64d876315dab3436ae92e941dcf8c117214fb1095ad0', level=0, lineno=1, tags=set(), all_tags=set(), aliases=set(), olp=['My testo'], properties=[('ID', '52d84ec4-236b-4194-9c68-8080ba98848e'), ('CREATED_TS', '1671978374')])
-: Task finished in 18.88s
+: 2022-12-26 22:41:19,913-make_zettel[make_zettel:87]
+: INFO-Created file /home/chunglak/monobox/zettel/20221226224119-my-testo.org for node My testo
+: Zettel(uuid='302ab17c-b0ca-45b0-941a-5b5d15c99201', title='My testo', filename='/home/chunglak/monobox/zettel/20221226224119-my-testo.org', updated_ts=1672062079.9148517, lastchecked_ts=1672062079.9148517, zettel_hash='b9c2306fa72cb5d2740f6307c35fd92d1cd1e914645d1a86a52f7b55c676e592', level=0, lineno=1, tags=set(), all_tags=set(), aliases=set(), olp=['My testo'], properties=[('ID', '302ab17c-b0ca-45b0-941a-5b5d15c99201'), ('CREATED_TS', '1672062079')])
+: Task finished in 3.92s
 
 * Make finder
 #+begin_src jupyter-python :async yes
 def func():
     # pylint: disable=import-outside-toplevel
-    from orgee_roam.zettel_finder import ZettelFinder
+    from orgee_roam import ZettelKasten,make_finder_files
 
-    zf = ZettelFinder()
-    zf.make_finder_files()
+    zk = ZettelKasten()
+    make_finder_files(zk=zk)
 
 
 runf(func)  # pylint: disable=undefined-variable
 #+end_src
 
 #+RESULTS:
-: 2022-12-26 00:02:12,347-create_zettel[create_zettel:85]
-: INFO-Created file /home/chunglak/monobox/zettel/zettel-finder-new.org for node Nodes by updated timestamp (33974 zettels)
-: 2022-12-26 00:02:15,176-zettel_list[make_list:47]
-: INFO-Saved 33974 links to /home/chunglak/monobox/zettel/zettel-finder-new.org
-: 2022-12-26 00:02:15,195-create_zettel[create_zettel:85]
-: INFO-Created file /home/chunglak/monobox/zettel/zettel-finder-restricted-new.org for node Restricted nodes by updated timestamp (3994 zettels)
-: 2022-12-26 00:02:15,479-zettel_list[make_list:47]
-: INFO-Saved 3994 links to /home/chunglak/monobox/zettel/zettel-finder-restricted-new.org
-: Task finished in 4.59s
+: 2022-12-26 22:45:06,652-zettelkasten[update_cache:91]
+: INFO-Removing «My testo»
+: 2022-12-26 22:45:21,775-zettelkasten[update_cache:170]
+: INFO-1 node changed
+: 2022-12-26 22:45:24,578-make_zettel[make_zettel:87]
+: INFO-Created file /home/chunglak/monobox/zettel/zettel-finder-new.org for node Nodes by updated timestamp (33978 zettels)
+: 2022-12-26 22:45:29,988-list_zettel[make_list_zettel:50]
+: INFO-Saved 33978 links to /home/chunglak/monobox/zettel/zettel-finder-new.org
+: 2022-12-26 22:45:30,006-make_zettel[make_zettel:87]
+: INFO-Created file /home/chunglak/monobox/zettel/zettel-finder-restricted-new.org for node Restricted nodes by updated timestamp (3996 zettels)
+: 2022-12-26 22:45:33,152-list_zettel[make_list_zettel:50]
+: INFO-Saved 3996 links to /home/chunglak/monobox/zettel/zettel-finder-restricted-new.org
+: Task finished in 28.28s
 
 * Func
 #+begin_src jupyter-python :async yes

@@ -12,11 +12,12 @@ from orgee.orgnode import OrgNode
 from orgee.util import dump_property
 from kombini.safe_filename import safe_filename_no_diacritic
 
-from .zettel import Zettel
+from ..zettel import Zettel
+from ..zettelkasten import ZettelKasten
 
 
-def create_zettel(
-    zk_root: str,
+def make_zettel(
+    zk: ZettelKasten,
     title: str,
     aliases: set[str] | None = None,
     tags: set[str] | None = None,
@@ -30,6 +31,7 @@ def create_zettel(
     filename: str | None = None,
     zid: str | None = None,
     overwrite: bool = False,
+    save_cache: bool = True,
 ) -> Zettel:
     if not dt:
         dt = datetime.datetime.now()
@@ -76,16 +78,16 @@ def create_zettel(
         if file_other_meta:
             rm.other_meta.extend(file_other_meta)
         if not filename:
-            filename = mk_fn(s=title, dt=dt, root=zk_root)
+            filename = mk_fn(s=title, dt=dt, root=zk.root)
         else:
-            filename = os.path.join(zk_root, filename)
+            filename = os.path.join(zk.root, filename)
         if os.path.isfile(filename) and not overwrite:
             raise Exception(f"There is already a file named {filename}!")
         node.dump_root(filename)
         logging.info("Created file %s for node %s", filename, title)
 
     ts = time.time()
-    return Zettel(
+    zettel = Zettel(
         uuid=zid,
         title=title,
         filename=filename,
@@ -99,6 +101,10 @@ def create_zettel(
         olp=node.olp(),
         properties=node.properties,
     )
+    zk[zid] = zettel
+    if save_cache:
+        zk.save_json()
+    return zettel
 
 
 def mk_fn(s: str, dt: datetime.datetime, root: str) -> str:

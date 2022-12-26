@@ -8,17 +8,19 @@ from typing import Iterator, ValuesView
 
 from orgee.util import is_org_file
 
-from orgee_roam.zettel import Zettel
+from .config import get_config
+from .zettel import Zettel
 
 VERBOSE_LIMIT = 100
 
 
-class ZettelkastenCache(MutableMapping):
+class ZettelKasten(MutableMapping):
     def __init__(
-        self, zettelkasten_root: str, cache_fn: str, update_cache: bool = True
+        self, config_file: str | None = None, update_cache: bool = True
     ):
-        self.zettelkasten_root = zettelkasten_root
-        self.cache_fn = cache_fn
+        self.config, _ = get_config(fn=config_file)
+        self.root = self.config["zettelkasten_root"]
+        self.cache_fn = self.config["roam_cache"]
         self.dic = self.load_json()
         self._dics_by_prop: dict[str, dict[str, Zettel]] = {}
         if update_cache:
@@ -45,15 +47,16 @@ class ZettelkastenCache(MutableMapping):
 
     def is_json_outdated(self) -> bool:
         if os.path.isfile(self.cache_fn):
-            return os.path.getmtime(self.cache_fn) < os.path.getmtime(
-                self.zettelkasten_root
-            )
+            return os.path.getmtime(self.cache_fn) < os.path.getmtime(self.root)
         else:
             return True
 
-    def update_cache(self, force=False) -> int:
+    def reset_cache(self):
+        self.dic = {}
+
+    def update_cache(self) -> int:
         def org_files() -> Iterator[str]:
-            for root, _, files in os.walk(self.zettelkasten_root):
+            for root, _, files in os.walk(self.root):
                 for fn in files:
                     if not is_org_file(fn):
                         continue
@@ -65,7 +68,7 @@ class ZettelkastenCache(MutableMapping):
                 dic.setdefault(zettel.filename, []).append(zettel)
             return dic
 
-        if not force and not self.is_json_outdated():
+        if not self.is_json_outdated():
             return 0
         all_files = set(org_files())
         existing_files = {zettel.filename for zettel in self.zettels}
@@ -194,13 +197,11 @@ class ZettelkastenCache(MutableMapping):
             return {}
 
     def dict_by_prop(
-        self, key: str, check_unique=True, use_memoized=True, update_cache=True
+        self, key: str, check_unique=True, use_memoized=True
     ) -> dict[str, Zettel]:
         """
         Return the zettelkasten indexed by a node property
         """
-        if update_cache:
-            self.update_cache()
         if use_memoized and (dic := self._dics_by_prop.get(key)):
             return dic
         # pairs = [
