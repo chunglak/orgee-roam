@@ -5,6 +5,7 @@ import logging
 import os.path
 import time
 import uuid
+from typing import TYPE_CHECKING
 
 from slugify import slugify  # type:ignore
 
@@ -13,7 +14,9 @@ from orgee.util import dump_property
 from kombini.safe_filename import safe_filename_no_diacritic
 
 from ..zettel import Zettel
-from ..zettelkasten import ZettelKasten
+
+if TYPE_CHECKING:
+    from orgee_roam import ZettelKasten
 
 
 def make_zettel(

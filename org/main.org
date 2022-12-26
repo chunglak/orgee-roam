@@ -6,6 +6,7 @@
 #+todo: PATH | DONE
 
 * [[id:cfaa0825-1ab6-481d-a882-6838cd5aced3][Zettel]]
+* [[file:~/monobox/nonzettel/gtd/agenda/current/programming.org::*orgee-roam][GTD subtree]]
 * [[https://github.com/chunglak/orgee-roam][GitHub - chunglak/orgee-roam]]
 * [[https://pypi.org/project/orgee-roam/][orgee-roam · PyPI]]
 * Configuration
@@ -20,7 +21,7 @@ orgee-roam
 ** Project version
 #+name: project-version
 #+begin_src conf
-0.0.4
+0.0.5
 #+end_src
 ** Description
 #+name: project-description

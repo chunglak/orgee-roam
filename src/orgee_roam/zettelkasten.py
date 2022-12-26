@@ -1,15 +1,22 @@
 from __future__ import annotations  # PEP 585
 
+import datetime
 import json
-import logging
 import os, os.path
 from collections.abc import MutableMapping
-from typing import Iterator, ValuesView
+from typing import ValuesView
 
-from orgee.util import is_org_file
+from orgee.orgnode import OrgNode
 
 from .const import ZK_CACHE, ZK_ROOT
 from .zettel import Zettel
+from .zk_func.update_cache import update_cache
+from .zk_func.make_zettel import make_zettel
+from .zk_func.list_zettel import make_list_zettel
+from .zk_func.finder_zettel import (
+    make_finder_files,
+    make_finder_files_by_creation_ts,
+)
 
 VERBOSE_LIMIT = 100
 
@@ -19,7 +26,7 @@ class ZettelKasten(MutableMapping):
         self,
         cache_fn: str | None = None,
         root: str | None = None,
-        update_cache: bool = True,
+        update_cache: bool = True,  # pylint: disable=redefined-outer-name
     ):
         self.root = root if root else ZK_ROOT
         self.cache_fn = cache_fn if cache_fn else ZK_CACHE
@@ -46,138 +53,6 @@ class ZettelKasten(MutableMapping):
     @property
     def zettels(self) -> ValuesView[Zettel]:
         return self.dic.values()
-
-    def is_json_outdated(self) -> bool:
-        if os.path.isfile(self.cache_fn):
-            return os.path.getmtime(self.cache_fn) < os.path.getmtime(self.root)
-        else:
-            return True
-
-    def reset_cache(self):
-        self.dic = {}
-
-    def update_cache(self) -> int:
-        def org_files() -> Iterator[str]:
-            for root, _, files in os.walk(self.root):
-                for fn in files:
-                    if not is_org_file(fn):
-                        continue
-                    yield os.path.join(root, fn)
-
-        def file_zettels() -> dict[str, list[Zettel]]:
-            dic: dict = {}
-            for zettel in self.zettels:
-                dic.setdefault(zettel.filename, []).append(zettel)
-            return dic
-
-        if not self.is_json_outdated():
-            return 0
-        all_files = set(org_files())
-        existing_files = {zettel.filename for zettel in self.zettels}
-        deleted_files = existing_files - all_files
-        fndic = file_zettels()
-        changes = 0
-
-        if deleted_files:
-            be_quiet = len(deleted_files) > VERBOSE_LIMIT
-            # print(f"Be quiet deleted={be_quiet}")
-            if be_quiet:
-                logging.info(
-                    "Deleting %d file%s",
-                    len(deleted_files),
-                    "s" if len(deleted_files) > 1 else "",
-                )
-            for fn in deleted_files:
-                for zettel in fndic[fn]:
-                    if not be_quiet:
-                        logging.info(
-                            "Removing «%s»", self.dic[zettel.uuid].olp_str()
-                        )
-                    del self.dic[zettel.uuid]
-                    changes += 1
-                del fndic[fn]
-
-        fns = [
-            fn
-            for fn, zettels in fndic.items()
-            if os.path.getmtime(fn)
-            > max(zettel.lastchecked_ts for zettel in zettels)
-        ]
-        if fns:
-            be_quiet = len(fns) > VERBOSE_LIMIT
-            # print(f"Be quiet changed={be_quiet}")
-            if be_quiet:
-                logging.info(
-                    "Updating %d file%s", len(fns), "s" if len(fns) > 1 else ""
-                )
-            for fn in fns:
-                uts = os.path.getmtime(fn)
-                zettels = fndic[fn]
-                zettels2 = Zettel.from_org_file(fn)
-                uuids = {zettel.uuid for zettel in zettels}
-                uuids2 = {zettel.uuid for zettel in zettels2}
-                for uuid in uuids - uuids2:
-                    if not be_quiet:
-                        logging.info("Removing %s", self.dic[uuid].olp_str())
-                    del self.dic[uuid]
-                    changes += 1
-                for zettel in zettels2:
-                    uuid = zettel.uuid
-                    if zettel0 := self.dic.get(uuid):
-                        if zettel.zettel_hash != zettel0.zettel_hash:
-                            olp0, olp = zettel0.olp_str(), zettel.olp_str()
-                            if olp != olp0:
-                                if not be_quiet:
-                                    logging.info(
-                                        "Updated «%s» → «%s»", olp0, olp
-                                    )
-                            else:
-                                if not be_quiet:
-                                    logging.info("Updated «%s»", olp)
-                        else:
-                            zettel.updated_ts = zettel0.updated_ts
-                    else:
-                        if not be_quiet:
-                            logging.info("Adding «%s»", zettel.olp_str())
-
-                    zettel.lastchecked_ts = uts
-                    self.dic[uuid] = zettel
-                    changes += 1
-
-        new_files = all_files - existing_files
-        if new_files:
-            be_quiet = len(new_files) > VERBOSE_LIMIT
-            # print(f"Be quiet new={be_quiet}")
-            if be_quiet:
-                logging.info(
-                    "Adding %d new file%s",
-                    len(new_files),
-                    "s" if len(new_files) > 1 else "",
-                )
-            for fn in new_files:
-                zettels = Zettel.from_org_file(fn)
-                for zettel in zettels:
-                    uuid = zettel.uuid
-                    if uuid in self.dic:
-                        print(uuid)
-                        print(zettel)
-                        print(self.dic[uuid])
-                        raise Exception("Duplicate ID!")
-                    self.dic[uuid] = zettel
-                    changes += 1
-                    if not be_quiet:
-                        logging.info("Adding «%s»", zettel.olp_str())
-
-        if changes:
-            logging.info(
-                "%d node%s changed", changes, "s" if changes > 1 else ""
-            )
-            # Reset dics_by_prop memoization
-            self._dics_by_prop = {}
-        else:
-            logging.info("No node changed")
-        self.save_json()
-        return changes
 
     def save_json(self):
         recs = [
@@ -206,11 +81,6 @@ class ZettelKasten(MutableMapping):
         """
         if use_memoized and (dic := self._dics_by_prop.get(key)):
             return dic
-        # pairs = [
-        #     (prop, zettel)
-        #     for zettel in self.zettels
-        #     if (prop := zettel.first_prop_by_key(key))
-        # ]
         # Allow a zettel to have multiple props
         pairs = []
         for zettel in self.zettels:
@@ -230,3 +100,80 @@ class ZettelKasten(MutableMapping):
                 if len(zs) > 1:
                     print(f"{ca}: {', '.join(z.olp_str() for z in zs)}")
             raise Exception("Some props are in multiple zettels!")
+
+    def is_json_outdated(self) -> bool:
+        if os.path.isfile(self.cache_fn):
+            return os.path.getmtime(self.cache_fn) < os.path.getmtime(self.root)
+        else:
+            return True
+
+    def update_cache(self) -> int:
+        return update_cache(zk=self)
+
+    def make_zettel(
+        self,
+        title: str,
+        aliases: set[str] | None = None,
+        tags: set[str] | None = None,
+        properties: list[tuple[str, str]] | None = None,
+        body: list[str] | None = None,
+        children: list[OrgNode] | None = None,
+        parent: Zettel | None = None,
+        file_properties: list[str] | None = None,
+        file_other_meta: list[tuple[str, str]] | None = None,
+        dt: datetime.datetime | None = None,
+        filename: str | None = None,
+        zid: str | None = None,
+        overwrite: bool = False,
+        save_cache: bool = True,
+    ) -> Zettel:
+        return make_zettel(
+            zk=self,
+            title=title,
+            aliases=aliases,
+            tags=tags,
+            properties=properties,
+            body=body,
+            children=children,
+            parent=parent,
+            file_properties=file_properties,
+            file_other_meta=file_other_meta,
+            dt=dt,
+            filename=filename,
+            zid=zid,
+            overwrite=overwrite,
+            save_cache=save_cache,
+        )
+
+    def make_list_zettel(
+        self,
+        zettels: list[Zettel],
+        title: str,
+        add_info_func=None,
+        filename: str | None = None,
+        zid: str | None = None,
+        overwrite=False,
+        exclude_from_roam: bool = False,
+        use_id: bool = True,
+        add_file_url: bool = False,
+        save_cache: bool = True,
+    ) -> Zettel:
+        return make_list_zettel(
+            zk=self,
+            zettels=zettels,
+            title=title,
+            add_info_func=add_info_func,
+            filename=filename,
+            zid=zid,
+            overwrite=overwrite,
+            exclude_from_roam=exclude_from_roam,
+            use_id=use_id,
+            add_file_url=add_file_url,
+            save_cache=save_cache,
+        )
+
+    def make_finder_files(self):
+        make_finder_files(zk=self)
+
+    def make_finder_files_by_creation_ts(self):
+        make_finder_files_by_creation_ts(zk=self)

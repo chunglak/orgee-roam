@@ -1,11 +1,10 @@
 from __future__ import annotations  # PEP 585
 
 import datetime
+from typing import TYPE_CHECKING
 
-from ..zettel import Zettel
-from ..zettelkasten import ZettelKasten
-
-from .list_zettel import make_list_zettel
+if TYPE_CHECKING:
+    from orgee_roam import ZettelKasten, Zettel
 
 
 def make_finder_files(zk: ZettelKasten):
@@ -26,8 +25,7 @@ def make_finder_files(zk: ZettelKasten):
         key=lambda z: z.updated_ts,
         reverse=True,
     )
-    make_list_zettel(
-        zk=zk,
+    zk.make_list_zettel(
         zettels=zettels,
         title="Nodes by updated timestamp",
         add_info_func=add_info_func,
@@ -36,8 +34,7 @@ def make_finder_files(zk: ZettelKasten):
         exclude_from_roam=True,
     )
     zettels = restrict_zettels(zettels)
-    make_list_zettel(
-        zk=zk,
+    zk.make_list_zettel(
         zettels=zettels,
         title="Restricted nodes by updated timestamp",
         add_info_func=add_info_func,
@@ -63,8 +60,7 @@ def make_finder_files_by_creation_ts(zk: ZettelKasten):
         key=lambda z: z.creation_ts(),
         reverse=True,
     )
-    make_list_zettel(
-        zk=zk,
+    zk.make_list_zettel(
         zettels=zettels,
         title="Nodes by creation timestamp",
         add_info_func=add_info_func,
@@ -73,8 +69,7 @@ def make_finder_files_by_creation_ts(zk: ZettelKasten):
         exclude_from_roam=True,
     )
     zettels = restrict_zettels(zettels)
-    make_list_zettel(
-        zk=zk,
+    zk.make_list_zettel(
         zettels=zettels,
         title="Restricted nodes by creation timestamp",
         add_info_func=add_info_func,

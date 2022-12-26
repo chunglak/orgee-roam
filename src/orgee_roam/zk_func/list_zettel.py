@@ -1,13 +1,13 @@
 from __future__ import annotations  # PEP 585
 
 import logging
+from typing import TYPE_CHECKING
 
 from orgee.orgnode import OrgNode
 from orgee.util import escape_url, clean_text
 
-from ..zettel import Zettel
-from ..zettelkasten import ZettelKasten
-from .make_zettel import make_zettel
+if TYPE_CHECKING:
+    from orgee_roam import ZettelKasten, Zettel
 
 
 def make_list_zettel(
@@ -27,8 +27,7 @@ def make_list_zettel(
         properties = [("ROAM_EXCLUDE", "t")]
     else:
         properties = None
-    root_zettel = make_zettel(
-        zk=zk,
+    root_zettel = zk.make_zettel(
         title=f"{title} ({len(zettels)} zettels)",
         properties=properties,
         body=[""],

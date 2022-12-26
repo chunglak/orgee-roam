@@ -35,25 +35,6 @@ print("Init done")
 #+RESULTS:
 : Init done
 
-* Load local config file
-#+begin_src jupyter-python :async yes
-def func():
-    # pylint: disable=import-outside-toplevel
-    import pprint
-    from orgee_roam import get_config
-
-    pprint.pprint(get_config())
-
-
-runf(func)  # pylint: disable=undefined-variable
-#+end_src
-
-#+RESULTS:
-: ({'roam_cache': '/home/chunglak/.emacs.d/orgzettel-cache-new.json',
-:   'zettelkasten_root': '/home/chunglak/monobox/zettel'},
-:  '/home/chunglak/.orgee-roam.ini')
-: Task finished in 0.00s
-
 * Zettelkasten
 #+begin_src jupyter-python :async yes
 def func():
@@ -69,17 +50,63 @@ runf(func)  # pylint: disable=undefined-variable
 #+end_src
 
 #+RESULTS:
-: 33978
-: Task finished in 4.25s
+: 2022-12-27 08:30:55,039-update_cache[update_cache:51]
+: INFO-Removing «Orgee-Roam-ExtData»
+: 2022-12-27 08:30:55,290-update_cache[update_cache:90]
+: INFO-Updated «Orgee-Roam»
+: 2022-12-27 08:30:55,294-update_cache[update_cache:90]
+: INFO-Updated «Main Index»
+: 2022-12-27 08:30:55,302-update_cache[update_cache:90]
+: INFO-Updated «Nippon Steel [日本製鉄]»
+: 2022-12-27 08:30:55,306-update_cache[update_cache:90]
+: INFO-Updated «COMPAGNIE DE SAINT-GOBAIN»
+: 2022-12-27 08:30:55,311-update_cache[update_cache:90]
+: INFO-Updated «Occidental Petroleum Corp.»
+: 2022-12-27 08:30:55,316-update_cache[update_cache:90]
+: INFO-Updated «SUMCO CORP»
+: 2022-12-27 08:30:55,322-update_cache[update_cache:90]
+: INFO-Updated «CANON INC»
+: 2022-12-27 08:30:55,326-update_cache[update_cache:90]
+: INFO-Updated «Mitsubishi [三菱商事]»
+: 2022-12-27 08:30:55,333-update_cache[update_cache:90]
+: INFO-Updated «Bridgestone Corp.»
+: 2022-12-27 08:30:55,337-update_cache[update_cache:90]
+: INFO-Updated «WALMART INC»
+: 2022-12-27 08:30:55,342-update_cache[update_cache:90]
+: INFO-Updated «Mitsui & Co. [三井物産]»
+: 2022-12-27 08:30:55,346-update_cache[update_cache:90]
+: INFO-Updated «KEIO CORP»
+: 2022-12-27 08:30:55,350-update_cache[update_cache:90]
+: INFO-Updated «NTT [日本電信電話]»
+: 2022-12-27 08:30:55,354-update_cache[update_cache:90]
+: INFO-Updated «Sotetsu Holdings [相模鉄道株式会社]»
+: 2022-12-27 08:30:55,358-update_cache[update_cache:90]
+: INFO-Updated «TAKASHIMAYA CO LTD»
+: 2022-12-27 08:30:55,362-update_cache[update_cache:90]
+: INFO-Updated «KURARAY CO LTD»
+: 2022-12-27 08:30:55,367-update_cache[update_cache:90]
+: INFO-Updated «Unicharm [ユニ·チャーム]»
+: 2022-12-27 08:30:55,375-update_cache[update_cache:90]
+: INFO-Updated «SUZUKI MOTOR CORP»
+: 2022-12-27 08:30:55,399-update_cache[update_cache:90]
+: INFO-Updated «The Movie DB»
+: 2022-12-27 08:30:55,403-update_cache[update_cache:90]
+: INFO-Updated «Type Hinting in Python»
+: 2022-12-27 08:31:05,866-update_cache[update_cache:123]
+: INFO-Adding «My-TMDB»
+: 2022-12-27 08:31:09,944-update_cache[update_cache:126]
+: INFO-22 nodes changed
+: 33979
+: Task finished in 19.23s
 
 * Add zettel
 #+begin_src jupyter-python :async yes
 def func():
     # pylint: disable=import-outside-toplevel
-    from orgee_roam import ZettelKasten,make_zettel
+    from orgee_roam import ZettelKasten
 
     zk = ZettelKasten()
-    z = make_zettel(zk=zk,title="My testo")
+    z = zk.make_zettel(title="My testo")
     print(z)
 
 
@@ -87,38 +114,34 @@ runf(func)  # pylint: disable=undefined-variable
 #+end_src
 
 #+RESULTS:
-: 2022-12-26 22:41:19,913-make_zettel[make_zettel:87]
-: INFO-Created file /home/chunglak/monobox/zettel/20221226224119-my-testo.org for node My testo
-: Zettel(uuid='302ab17c-b0ca-45b0-941a-5b5d15c99201', title='My testo', filename='/home/chunglak/monobox/zettel/20221226224119-my-testo.org', updated_ts=1672062079.9148517, lastchecked_ts=1672062079.9148517, zettel_hash='b9c2306fa72cb5d2740f6307c35fd92d1cd1e914645d1a86a52f7b55c676e592', level=0, lineno=1, tags=set(), all_tags=set(), aliases=set(), olp=['My testo'], properties=[('ID', '302ab17c-b0ca-45b0-941a-5b5d15c99201'), ('CREATED_TS', '1672062079')])
-: Task finished in 3.92s
+: 2022-12-27 08:31:42,445-make_zettel[make_zettel:90]
+: INFO-Created file /home/chunglak/zettelkasten/20221227083142-my-testo.org for node My testo
+: Zettel(uuid='3306eb54-f81f-41cc-946d-e8cdfee09acb', title='My testo', filename='/home/chunglak/zettelkasten/20221227083142-my-testo.org', updated_ts=1672097502.4475112, lastchecked_ts=1672097502.4475112, zettel_hash='6cbfb6a83fdfc3ffc6cfba1f1048eede916c9f1a04c1095286bfb0fb3502edc6', level=0, lineno=1, tags=set(), all_tags=set(), aliases=set(), olp=['My testo'], properties=[('ID', '3306eb54-f81f-41cc-946d-e8cdfee09acb'), ('CREATED_TS', '1672097502')])
+: Task finished in 3.75s
 
 * Make finder
 #+begin_src jupyter-python :async yes
 def func():
     # pylint: disable=import-outside-toplevel
-    from orgee_roam import ZettelKasten,make_finder_files
+    from orgee_roam import ZettelKasten
 
     zk = ZettelKasten()
-    make_finder_files(zk=zk)
+    zk.make_finder_files()
 
 
 runf(func)  # pylint: disable=undefined-variable
 #+end_src
 
 #+RESULTS:
-: 2022-12-26 22:45:06,652-zettelkasten[update_cache:91]
-: INFO-Removing «My testo»
-: 2022-12-26 22:45:21,775-zettelkasten[update_cache:170]
-: INFO-1 node changed
-: 2022-12-26 22:45:24,578-make_zettel[make_zettel:87]
-: INFO-Created file /home/chunglak/monobox/zettel/zettel-finder-new.org for node Nodes by updated timestamp (33978 zettels)
-: 2022-12-26 22:45:29,988-list_zettel[make_list_zettel:50]
-: INFO-Saved 33978 links to /home/chunglak/monobox/zettel/zettel-finder-new.org
-: 2022-12-26 22:45:30,006-make_zettel[make_zettel:87]
-: INFO-Created file /home/chunglak/monobox/zettel/zettel-finder-restricted-new.org for node Restricted nodes by updated timestamp (3996 zettels)
-: 2022-12-26 22:45:33,152-list_zettel[make_list_zettel:50]
-: INFO-Saved 3996 links to /home/chunglak/monobox/zettel/zettel-finder-restricted-new.org
-: Task finished in 28.28s
+: 2022-12-27 08:32:09,877-make_zettel[make_zettel:90]
+: INFO-Created file /home/chunglak/zettelkasten/zettel-finder-new.org for node Nodes by updated timestamp (33980 zettels)
+: 2022-12-27 08:32:15,325-list_zettel[make_list_zettel:49]
+: INFO-Saved 33980 links to /home/chunglak/zettelkasten/zettel-finder-new.org
+: 2022-12-27 08:32:15,340-make_zettel[make_zettel:90]
+: INFO-Created file /home/chunglak/zettelkasten/zettel-finder-restricted-new.org for node Restricted nodes by updated timestamp (3998 zettels)
+: 2022-12-27 08:32:18,411-list_zettel[make_list_zettel:49]
+: INFO-Saved 3998 links to /home/chunglak/zettelkasten/zettel-finder-restricted-new.org
+: Task finished in 9.79s
 
 * Func
 #+begin_src jupyter-python :async yes
