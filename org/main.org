@@ -70,7 +70,6 @@ GPL-3.0-or-later
 #+name: project-dependencies
 #+begin_src conf
 python-slugify[unidecode]
-wikipedia-api
 orgee
 kombini
 #+end_src

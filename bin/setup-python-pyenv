@@ -34,7 +34,6 @@ PACKAGES=(
   pytest # testing framework
   # Package dependencies
   python-slugify[unidecode]
-  wikipedia-api
   orgee
   kombini
 )
