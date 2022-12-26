@@ -20,7 +20,7 @@ orgee-roam
 ** Project version
 #+name: project-version
 #+begin_src conf
-0.0.3
+0.0.4
 #+end_src
 ** Description
 #+name: project-description

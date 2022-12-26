@@ -8,7 +8,7 @@ from typing import Iterator, ValuesView
 
 from orgee.util import is_org_file
 
-from .config import get_config
+from .const import ZK_CACHE, ZK_ROOT
 from .zettel import Zettel
 
 VERBOSE_LIMIT = 100
@@ -16,11 +16,13 @@ VERBOSE_LIMIT = 100
 
 class ZettelKasten(MutableMapping):
     def __init__(
-        self, config_file: str | None = None, update_cache: bool = True
+        self,
+        cache_fn: str | None = None,
+        root: str | None = None,
+        update_cache: bool = True,
     ):
-        self.config, _ = get_config(fn=config_file)
-        self.root = self.config["zettelkasten_root"]
-        self.cache_fn = self.config["roam_cache"]
+        self.root = root if root else ZK_ROOT
+        self.cache_fn = cache_fn if cache_fn else ZK_CACHE
         self.dic = self.load_json()
         self._dics_by_prop: dict[str, dict[str, Zettel]] = {}
         if update_cache:
