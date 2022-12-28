@@ -38,7 +38,6 @@ def update_cache(zk: ZettelKasten) -> int:
 
     if deleted_files:
         be_quiet = len(deleted_files) > VERBOSE_LIMIT
-        # print(f"Be quiet deleted={be_quiet}")
         if be_quiet:
             logging.info(
                 "Deleting %d file%s",
@@ -61,7 +60,6 @@ def update_cache(zk: ZettelKasten) -> int:
     ]
     if fns:
         be_quiet = len(fns) > VERBOSE_LIMIT
-        # print(f"Be quiet changed={be_quiet}")
         if be_quiet:
             logging.info(
                 "Updating %d file%s", len(fns), "s" if len(fns) > 1 else ""
@@ -101,7 +99,6 @@ def update_cache(zk: ZettelKasten) -> int:
     new_files = all_files - existing_files
     if new_files:
         be_quiet = len(new_files) > VERBOSE_LIMIT
-        # print(f"Be quiet new={be_quiet}")
         if be_quiet:
             logging.info(
                 "Adding %d new file%s",

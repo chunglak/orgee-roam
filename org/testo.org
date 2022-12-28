@@ -99,6 +99,27 @@ runf(func)  # pylint: disable=undefined-variable
 : 33979
 : Task finished in 19.23s
 
+* Zettelkasten speed
+#+begin_src jupyter-python :async yes
+def func():
+    # pylint: disable=import-outside-toplevel
+    from orgee_roam import ZettelKasten
+
+    zk = ZettelKasten()
+
+
+runf(func)  # pylint: disable=undefined-variable
+#+end_src
+
+#+RESULTS:
+: 2022-12-28 13:38:56,075-update_cache[update_cache:110]
+: INFO-a
+: 2022-12-28 13:38:56,077-update_cache[update_cache:135]
+: INFO-b
+: 2022-12-28 13:38:56,078-update_cache[update_cache:137]
+: INFO-1 node changed
+: Task finished in 4.09s
+
 * Add zettel
 #+begin_src jupyter-python :async yes
 def func():

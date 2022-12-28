@@ -93,9 +93,9 @@ class Zettel:
     def from_orgnode(
         node: OrgNode, filename: str, updated_ts: float | None = None
     ) -> Zettel | None:
-        xc = node.prop_by_key("ROAM_EXCLUDE", parse=True)
-        if xc and xc[0] is True:
-            return None
+        # xc = node.prop_by_key("ROAM_EXCLUDE", parse=True)
+        # if xc and xc[0] is True:
+        #     return None
 
         uuid = node.prop_by_key("ID")[0]
         if not updated_ts:
