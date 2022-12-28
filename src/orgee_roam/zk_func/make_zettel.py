@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 from slugify import slugify  # type:ignore
 
 from orgee.orgnode import OrgNode
-from orgee.util import dump_property
+# from orgee.util import dump_property
 from kombini.safe_filename import safe_filename_no_diacritic
 
 from ..zettel import Zettel
@@ -49,7 +49,8 @@ def make_zettel(
     # node.properties.append(("ID", zid))
     # node.properties.append(("CREATED_TS", str(int(dt.timestamp()))))
     if aliases:
-        node.replace_prop("ROAM_ALIASES", dump_property(list(aliases)))
+        # node.replace_prop("ROAM_ALIASES", dump_property(list(aliases)))
+        node.replace_prop("ROAM_ALIASES", list(aliases))
     if tags:
         node.tags = tags
     if body:
