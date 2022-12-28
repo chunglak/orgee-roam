@@ -28,8 +28,8 @@ def update_cache(zk: ZettelKasten) -> int:
             dic.setdefault(zettel.filename, []).append(zettel)
         return dic
 
-    if not zk.is_json_outdated():
-        return 0
+    # if not zk.is_json_outdated():
+    #     return 0
     all_files = set(org_files())
     existing_files = {zettel.filename for zettel in zk.zettels}
     deleted_files = existing_files - all_files
