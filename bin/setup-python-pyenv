@@ -26,13 +26,7 @@ done
 
 # Install dependencies
 PACKAGES=(
-  # Dev dependencies
-	black # Formatter
-	mypy # typing linter
-	pylint # linter
-  twine # to publish to pypi
-  pytest # testing framework
-  # Package dependencies
+  
   python-slugify[unidecode]
   orgee
   kombini
