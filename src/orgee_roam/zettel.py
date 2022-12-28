@@ -188,3 +188,6 @@ class Zettel:
                     return ts
         logging.warning("Zettel [%s] has no CREATED_TS!", self.olp_str())
         return 0
+
+    def save(self):
+        self.orgnode().dump_root(self.filename)
