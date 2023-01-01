@@ -71,8 +71,8 @@ GPL-3.0-or-later
 #+name: project-dependencies
 #+begin_src conf
 python-slugify[unidecode]
-git+https://github.com/chunglak/orgee
-git+https://github.com/chunglak/kombini
+orgee
+kombini
 #+end_src
 ** Dev dependencies
 #+name: project-dependencies-dev

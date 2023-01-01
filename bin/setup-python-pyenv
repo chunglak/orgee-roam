@@ -32,8 +32,8 @@ PACKAGES=(
   twine # to publish to pypi
   pytest # testing framework
   python-slugify[unidecode]
-  git+https://github.com/chunglak/orgee
-  git+https://github.com/chunglak/kombini
+  orgee
+  kombini
 )
 pip install --upgrade pip
 pip install wheel
