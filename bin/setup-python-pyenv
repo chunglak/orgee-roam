@@ -26,10 +26,14 @@ done
 
 # Install dependencies
 PACKAGES=(
-  
+  black # Formatter
+  mypy # typing linter
+  pylint # linter
+  twine # to publish to pypi
+  pytest # testing framework
   python-slugify[unidecode]
-  orgee
-  kombini
+  git+https://github.com/chunglak/orgee
+  git+https://github.com/chunglak/kombini
 )
 pip install --upgrade pip
 pip install wheel

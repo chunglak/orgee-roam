@@ -71,8 +71,17 @@ GPL-3.0-or-later
 #+name: project-dependencies
 #+begin_src conf
 python-slugify[unidecode]
-orgee
-kombini
+git+https://github.com/chunglak/orgee
+git+https://github.com/chunglak/kombini
+#+end_src
+** Dev dependencies
+#+name: project-dependencies-dev
+#+begin_src conf
+black # Formatter
+mypy # typing linter
+pylint # linter
+twine # to publish to pypi
+pytest # testing framework
 #+end_src
 * Default tangled files
 Don't add anything here, it's common to all projects

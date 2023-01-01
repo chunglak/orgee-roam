@@ -164,6 +164,25 @@ runf(func)  # pylint: disable=undefined-variable
 : INFO-Saved 3998 links to /home/chunglak/zettelkasten/zettel-finder-restricted-new.org
 : Task finished in 9.79s
 
+* OrgNode2
+#+begin_src jupyter-python :async yes
+def func():
+    # pylint: disable=import-outside-toplevel
+    from orgee import OrgNode
+
+    fn = "/home/chunglak/monobox/zettel/20220819134353-enum.org"
+
+    node = OrgNode.from_file(fn)
+    print(node.children)
+
+
+runf(func)  # pylint: disable=undefined-variable
+#+end_src
+
+#+RESULTS:
+: [<orgee.orgnode2.OrgNode object at 0x7f1ad85e5a20>, <orgee.orgnode2.OrgNode object at 0x7f1ad85e54e0>, <orgee.orgnode2.OrgNode object at 0x7f1ad85e6ef0>, <orgee.orgnode2.OrgNode object at 0x7f1ad85e6470>, <orgee.orgnode2.OrgNode object at 0x7f1ad85e69e0>]
+: Task finished in 0.00s
+
 * Func
 #+begin_src jupyter-python :async yes
 def func():
