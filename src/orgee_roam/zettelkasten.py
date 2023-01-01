@@ -9,7 +9,7 @@ from typing import ValuesView
 from orgee import OrgNode
 
 from .const import ZK_CACHE, ZK_ROOT
-from .zettel2 import Zettel
+from .zettel import Zettel
 from .zk_func.update_cache import update_cache
 from .zk_func.make_zettel import make_zettel
 from .zk_func.list_zettel import make_list_zettel
@@ -84,9 +84,9 @@ class ZettelKasten(MutableMapping):
         # Allow a zettel to have multiple props
         pairs = []
         for zettel in self.zettels:
-            props = zettel.prop_by_key(key)
+            props = zettel.properties.property_by_key(key)
             for prop in props:
-                pairs.append((prop, zettel))
+                pairs.append((str(prop), zettel))
 
         dic = dict(pairs)
         if len(dic) == len(pairs) or not check_unique:

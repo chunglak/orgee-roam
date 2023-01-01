@@ -1,5 +1,5 @@
 # pylint: disable=unused-import
-from .zettel2 import Zettel
+from .zettel import Zettel
 
 # from .zettel import Zettel
 from .zettelkasten import ZettelKasten

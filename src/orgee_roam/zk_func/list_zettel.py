@@ -3,7 +3,7 @@ from __future__ import annotations  # PEP 585
 import logging
 from typing import TYPE_CHECKING
 
-from orgee.orgnode import OrgNode
+from orgee import OrgNode
 from orgee.util import escape_url, clean_text
 
 if TYPE_CHECKING:
@@ -36,7 +36,7 @@ def make_list_zettel(
         overwrite=overwrite,
         save_cache=save_cache,
     )
-    root = root_zettel.orgnode()
+    root = root_zettel.orgnode
     for zettel in zettels:
         node = make_zettel_org_heading(
             zettel,

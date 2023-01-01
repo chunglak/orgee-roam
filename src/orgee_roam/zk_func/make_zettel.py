@@ -9,8 +9,7 @@ from typing import TYPE_CHECKING
 
 from slugify import slugify  # type:ignore
 
-from orgee.orgnode import OrgNode
-# from orgee.util import dump_property
+from orgee import OrgNode, OrgProperties
 from kombini.safe_filename import safe_filename_no_diacritic
 
 from ..zettel import Zettel
@@ -24,7 +23,7 @@ def make_zettel(
     title: str,
     aliases: set[str] | None = None,
     tags: set[str] | None = None,
-    properties: list[tuple[str, str]] | None = None,
+    properties: OrgProperties | None = None,
     body: list[str] | None = None,
     children: list[OrgNode] | None = None,
     parent: Zettel | None = None,
@@ -44,13 +43,10 @@ def make_zettel(
     node = OrgNode(title=title, is_root=not bool(parent))
     if properties:
         node.properties = properties
-    node.replace_prop("ID", zid)
-    node.replace_prop("CREATED_TS", str(int(dt.timestamp())))
-    # node.properties.append(("ID", zid))
-    # node.properties.append(("CREATED_TS", str(int(dt.timestamp()))))
+    node.properties.replace_property("ID", [zid])
+    node.properties.replace_property("CREATED_TS", [str(int(dt.timestamp()))])
     if aliases:
-        # node.replace_prop("ROAM_ALIASES", dump_property(list(aliases)))
-        node.replace_prop("ROAM_ALIASES", list(aliases))
+        node.properties.replace_property("ROAM_ALIASES", list(aliases))
     if tags:
         node.tags = tags
     if body:
@@ -63,10 +59,10 @@ def make_zettel(
         if filename:
             raise Exception("Child node cannot set the parent filename")
         filename = parent.filename
-        parent_node = parent.orgnode()
+        parent_node = parent.orgnode
         parent_node.add_child(node)
         parent_node.dump_root(filename)
-        logging.info("Added node %s to node %s", title, parent.olp_str())
+        logging.info("Added node %s to node %s", title, parent)
     else:
         rm = node.root_meta
         assert rm
@@ -78,7 +74,7 @@ def make_zettel(
             )
         )
         if file_properties:
-            rm.properties = file_properties
+            rm.file_properties = file_properties
         if file_other_meta:
             rm.other_meta.extend(file_other_meta)
         if not filename:

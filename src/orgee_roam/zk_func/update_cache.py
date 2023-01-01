@@ -47,7 +47,7 @@ def update_cache(zk: ZettelKasten) -> int:
         for fn in deleted_files:
             for zettel in fndic[fn]:
                 if not be_quiet:
-                    logging.info("Removing «%s»", zk.dic[zettel.uuid].olp_str())
+                    logging.info("Removing «%s»", zk.dic[zettel.uuid])
                 del zk.dic[zettel.uuid]
                 changes += 1
             del fndic[fn]
@@ -72,14 +72,14 @@ def update_cache(zk: ZettelKasten) -> int:
             uuids2 = {zettel.uuid for zettel in zettels2}
             for uuid in uuids - uuids2:
                 if not be_quiet:
-                    logging.info("Removing %s", zk.dic[uuid].olp_str())
+                    logging.info("Removing %s", zk.dic[uuid])
                 del zk.dic[uuid]
                 changes += 1
             for zettel in zettels2:
                 uuid = zettel.uuid
                 if zettel0 := zk.dic.get(uuid):
                     if zettel.zettel_hash != zettel0.zettel_hash:
-                        olp0, olp = zettel0.olp_str(), zettel.olp_str()
+                        olp0, olp = str(zettel0), str(zettel)
                         if olp != olp0:
                             if not be_quiet:
                                 logging.info("Updated «%s» → «%s»", olp0, olp)
@@ -90,7 +90,7 @@ def update_cache(zk: ZettelKasten) -> int:
                         zettel.updated_ts = zettel0.updated_ts
                 else:
                     if not be_quiet:
-                        logging.info("Adding «%s»", zettel.olp_str())
+                        logging.info("Adding «%s»", zettel)
 
                 zettel.lastchecked_ts = uts
                 zk.dic[uuid] = zettel
@@ -117,7 +117,7 @@ def update_cache(zk: ZettelKasten) -> int:
                 zk.dic[uuid] = zettel
                 changes += 1
                 if not be_quiet:
-                    logging.info("Adding «%s»", zettel.olp_str())
+                    logging.info("Adding «%s»", zettel)
 
     if changes:
         logging.info("%d node%s changed", changes, "s" if changes > 1 else "")
