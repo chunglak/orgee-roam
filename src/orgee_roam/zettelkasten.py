@@ -6,10 +6,10 @@ import os, os.path
 from collections.abc import MutableMapping
 from typing import ValuesView
 
-from orgee.orgnode import OrgNode
+from orgee import OrgNode
 
 from .const import ZK_CACHE, ZK_ROOT
-from .zettel import Zettel
+from .zettel2 import Zettel
 from .zk_func.update_cache import update_cache
 from .zk_func.make_zettel import make_zettel
 from .zk_func.list_zettel import make_list_zettel
