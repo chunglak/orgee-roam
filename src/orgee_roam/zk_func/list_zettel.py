@@ -3,7 +3,7 @@ from __future__ import annotations  # PEP 585
 import logging
 from typing import TYPE_CHECKING
 
-from orgee import OrgNode
+from orgee import OrgNode, OrgProperties
 from orgee.util import escape_url, clean_text
 
 if TYPE_CHECKING:
@@ -21,10 +21,11 @@ def make_list_zettel(
     exclude_from_roam: bool = False,
     use_id: bool = True,
     add_file_url: bool = False,
+    add_aliases: bool = True,
     save_cache: bool = True,
 ) -> Zettel:
     if exclude_from_roam:
-        properties = [("ROAM_EXCLUDE", "t")]
+        properties = OrgProperties.from_raw([("ROAM_EXCLUDE", "t")])
     else:
         properties = None
     root_zettel = zk.make_zettel(
@@ -43,6 +44,7 @@ def make_list_zettel(
             use_id=use_id,
             add_info_func=add_info_func,
             add_file_url=add_file_url,
+            add_aliases=add_aliases,
         )
         root.add_child(node)
     root.dump(root_zettel.filename)
@@ -51,7 +53,11 @@ def make_list_zettel(
 
 
 def make_zettel_org_heading(
-    zettel: Zettel, use_id=True, add_info_func=None, add_file_url=False
+    zettel: Zettel,
+    use_id=True,
+    add_info_func=None,
+    add_file_url=False,
+    add_aliases: bool = True,
 ) -> OrgNode:
     node = OrgNode()
     if use_id:
@@ -59,7 +65,7 @@ def make_zettel_org_heading(
     else:
         url = escape_url("file:%s::%d" % (zettel.filename, zettel.lineno))
     title = "[[%s][%s]]" % (url, clean_text(zettel.title))
-    if aliases := zettel.aliases:
+    if add_aliases and (aliases := zettel.aliases):
         # title += " | %s" % " | ".join(aliases)
         title += " | %s" % " | ".join(
             f"[[{url}][{alias}]]" for alias in aliases

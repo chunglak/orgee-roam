@@ -156,6 +156,7 @@ class ZettelKasten(MutableMapping):
         exclude_from_roam: bool = False,
         use_id: bool = True,
         add_file_url: bool = False,
+        add_aliases: bool = True,
         save_cache: bool = True,
     ) -> Zettel:
         return make_list_zettel(
@@ -169,6 +170,7 @@ class ZettelKasten(MutableMapping):
             exclude_from_roam=exclude_from_roam,
             use_id=use_id,
             add_file_url=add_file_url,
+            add_aliases=add_aliases,
             save_cache=save_cache,
         )
 
