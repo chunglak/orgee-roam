@@ -6,7 +6,7 @@ import os, os.path
 from collections.abc import MutableMapping
 from typing import ValuesView
 
-from orgee import OrgNode
+from orgee import OrgNode, OrgProperties
 
 from .const import ZK_CACHE, ZK_ROOT
 from .zettel import Zettel
@@ -115,7 +115,7 @@ class ZettelKasten(MutableMapping):
         title: str,
         aliases: set[str] | None = None,
         tags: set[str] | None = None,
-        properties: list[tuple[str, str]] | None = None,
+        properties: OrgProperties | None = None,
         body: list[str] | None = None,
         children: list[OrgNode] | None = None,
         parent: Zettel | None = None,
