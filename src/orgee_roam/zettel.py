@@ -139,7 +139,8 @@ class Zettel:
         node.tags = self.tags
         node.properties = self.properties
         node.properties.replace_property("ID", self.uuid)
-        node.properties.replace_property("ROAM_ALIASES", self.aliases)
+        if self.aliases:
+            node.properties.replace_property("ROAM_ALIASES", self.aliases)
         # Save file the node belongs to
         node.dump_root(self.filename)
 

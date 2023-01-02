@@ -43,10 +43,10 @@ def make_zettel(
     node = OrgNode(title=title, is_root=not bool(parent))
     if properties:
         node.properties = properties
-    node.properties.replace_property("ID", [zid])
-    node.properties.replace_property("CREATED_TS", [str(int(dt.timestamp()))])
+    node.properties.replace_property("ID", zid)
+    node.properties.replace_property("CREATED_TS", int(dt.timestamp()))
     if aliases:
-        node.properties.replace_property("ROAM_ALIASES", list(aliases))
+        node.properties.replace_property("ROAM_ALIASES", aliases)
     if tags:
         node.tags = tags
     if body:
