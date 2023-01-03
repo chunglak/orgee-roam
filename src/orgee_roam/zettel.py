@@ -37,7 +37,7 @@ class Zettel:
             zettel_hash=rec["zettel_hash"],
             level=rec["level"],
             lineno=rec["lineno"],
-            tags=rec["tags"],
+            tags=set(rec["tags"]),
             all_tags=set(rec["all_tags"]),
             aliases=set(rec["aliases"]),
             olp=rec["olp"],
