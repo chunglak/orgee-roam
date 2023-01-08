@@ -41,7 +41,7 @@ class Zettel:
             all_tags=set(rec["all_tags"]),
             aliases=set(rec["aliases"]),
             olp=rec["olp"],
-            properties=OrgProperties.from_raw(tus=rec["properties"]),
+            properties=OrgProperties.from_rec(rec=rec["properties"]),
         )
 
     def to_rec(self) -> dict:
@@ -61,7 +61,7 @@ class Zettel:
             "all_tags": list(self.all_tags),
             "aliases": list(self.aliases),
             "olp": self.olp,
-            "properties": self.properties.dump(),
+            "properties": self.properties.to_rec(),
         }
         return rec
 

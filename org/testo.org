@@ -183,6 +183,140 @@ runf(func)  # pylint: disable=undefined-variable
 : [<orgee.orgnode2.OrgNode object at 0x7f1ad85e5a20>, <orgee.orgnode2.OrgNode object at 0x7f1ad85e54e0>, <orgee.orgnode2.OrgNode object at 0x7f1ad85e6ef0>, <orgee.orgnode2.OrgNode object at 0x7f1ad85e6470>, <orgee.orgnode2.OrgNode object at 0x7f1ad85e69e0>]
 : Task finished in 0.00s
 
+* normalize_links
+#+begin_src jupyter-python :async yes
+def func():
+    # pylint: disable=import-outside-toplevel
+    from orgee_roam import ZettelKasten
+    from orgee_roam.zk_func.normalize_links import normalize_zettel_links
+
+    zk = ZettelKasten()
+    zid = "f8d8d44d-0181-413c-aacc-90f1d166419b"
+    zettel = zk[zid]
+    normalize_zettel_links(zettel=zettel, zk=zk)
+
+
+runf(func)  # pylint: disable=undefined-variable
+#+end_src
+
+#+RESULTS:
+: 2023-01-08 19:47:45,798-update_cache[update_cache:88]
+: INFO-Updated «Webclips 2023-01»
+: 2023-01-08 19:47:45,809-update_cache[update_cache:88]
+: INFO-Updated «Webclips 2022-12»
+: 2023-01-08 19:47:45,817-update_cache[update_cache:123]
+: INFO-3 nodes changed
+: [[id:f1a4554b-a868-43af-8ef0-deddca491032][A Dictionary of Japanese Food]] → [[id:f1a4554b-a868-43af-8ef0-deddca491032][A Dictionary of Japanese Food: Ingredients & Culture (Richard Hosking, 1995)]]
+: [[id:8dc15e9e-9bb7-445c-a613-8f4832738e2c][Sekai ichi oishii tenuki gohan [世界一美味しい手抜きごはん]​]] → [[id:8dc15e9e-9bb7-445c-a613-8f4832738e2c][Sekai ichi oishii tenuki gohan \[世界一美味しい手抜きごはん\]]]
+: [[id:adb3c18c-089a-49a8-978b-e150e540ed1f][Ichiban yoku wakaru! Kihon no okazu [いちばんよくわかる！基本のおかず]​]] → [[id:adb3c18c-089a-49a8-978b-e150e540ed1f][Ichiban yoku wakaru! Kihon no okazu \[いちばんよくわかる！基本のおかず\]]]
+: [[id:1c83bbec-b7ec-45d5-9d8e-c6f630bc1e1f][Tsukuri oki to asa 7fun obentou 312 [作りおき＆朝７分お弁当312]​]] → [[id:1c83bbec-b7ec-45d5-9d8e-c6f630bc1e1f][Tsukuri oki to asa 7fun obentou 312 \[作りおき＆朝７分お弁当312\]]]
+: [[id:89db1158-9d7c-449a-a307-d04b7a88e6b5][Ookiji de suisui tsukureru dendou iri best reshipi [大きい字ですいすい作れる殿堂入りBESTレシピ]​]] → [[id:89db1158-9d7c-449a-a307-d04b7a88e6b5][Ookiji de suisui tsukureru dendou iri best reshipi \[大きい字ですいすい作れる殿堂入りBESTレシピ\]]]
+: [[id:8c3785bb-e8ed-43b6-a205-92cd6b5413da][365nichi yasai no okazu hyakka [365日野菜のおかず百科]​]] → [[id:8c3785bb-e8ed-43b6-a205-92cd6b5413da][365nichi yasai no okazu hyakka \[365日野菜のおかず百科\]]]
+: [[id:08fa092d-fba7-47e4-af5d-375a9980d82f][Mahou no tenuki gohan [魔法の手抜きごはん]​]] → [[id:08fa092d-fba7-47e4-af5d-375a9980d82f][Mahou no tenuki gohan \[魔法の手抜きごはん\]]]
+: [[id:301c5f8d-3663-4e32-b302-39ccf50b68f2][365nichi kyou no okazu daihyakka [365日きょうのおかず大百科]​]] → [[id:301c5f8d-3663-4e32-b302-39ccf50b68f2][365nichi kyou no okazu daihyakka \[365日きょうのおかず大百科\]]]
+: [[id:79a01e15-a386-4a9c-aea8-f39d34981dde][Mainichi no futari no gohan [毎日の二人のごはん]​]] → [[id:79a01e15-a386-4a9c-aea8-f39d34981dde][Mainichi no futari no gohan \[毎日の二人のごはん\]]]
+: [[id:753029c6-1a61-4cca-9832-836bc6fc5e84][Shitte okitai yasai no kihon [知っておきたい野菜の基本]​]] → [[id:753029c6-1a61-4cca-9832-836bc6fc5e84][Shitte okitai yasai no kihon \[知っておきたい野菜の基本\]]]
+: [[id:d22c7f89-17e2-4be3-8dc6-79bf8901eab3][Shitte okitai sakana no kihon [知っておきたい魚の基本]​]] → [[id:d22c7f89-17e2-4be3-8dc6-79bf8901eab3][Shitte okitai sakana no kihon \[知っておきたい魚の基本\]]]
+: [[id:d77eae5c-6557-4347-8807-99a641af28b0][Oishii nimono no tsukurikata [おいしい煮ものの作りかた]​]] → [[id:d77eae5c-6557-4347-8807-99a641af28b0][Oishii nimono no tsukurikata \[おいしい煮ものの作りかた\]]]
+: [[id:803b2ac5-e9dc-419c-9959-70adcf593552][3 step de dekiru oishii 10pun okazu [３ステップでできるおいしい１０分おかず]​]] → [[id:803b2ac5-e9dc-419c-9959-70adcf593552][3 step de dekiru oishii 10pun okazu \[３ステップでできるおいしい１０分おかず\]]]
+: [[id:6a0fdcc2-23af-4980-bb87-31aa1745ee02][Ryouri wo hajimeru hito no hon [料理をはじめる人の本]​]] → [[id:6a0fdcc2-23af-4980-bb87-31aa1745ee02][Ryouri wo hajimeru hito no hon \[料理をはじめる人の本\]]]
+: [[id:186db240-cee1-41d2-9dc4-c3dfc4817c23][Cookpad no zeppin nasu recipe [クックパッドの絶品なすレシピ]​]] → [[id:186db240-cee1-41d2-9dc4-c3dfc4817c23][Cookpad no zeppin nasu recipe \[クックパッドの絶品なすレシピ\]]]
+: [[id:76823d79-f398-4026-97df-0fea19299183][Tonjiru [豚汁]​]] → [[id:76823d79-f398-4026-97df-0fea19299183][Tonjiru \[豚汁\]]]
+: [[id:f5013ceb-86cb-4cdf-998c-abc5192bc81f][Agedofu [揚げ豆腐]​]] → [[id:f5013ceb-86cb-4cdf-998c-abc5192bc81f][Agedofu \[揚げ豆腐\]]]
+: [[id:76267836-fe4e-4d62-ae53-bd641fd0062f][Karaage [唐揚げ]​]] → [[id:76267836-fe4e-4d62-ae53-bd641fd0062f][Karaage \[唐揚げ\] ]]
+: [[id:47144689-68d9-44a8-8857-19e04acb1038][Tonkatsu [豚カツ]​]] → [[id:47144689-68d9-44a8-8857-19e04acb1038][Tonkatsu \[豚カツ\]]]
+: [[id:57c0cb9f-f926-40b6-9720-8f330315b179][Shio Kyabetsu [塩キャベツ]​]] → [[id:57c0cb9f-f926-40b6-9720-8f330315b179][Shio Kyabetsu \[塩キャベツ\]]]
+: [[id:2ef794ca-fa9f-4930-abfa-ffda8976fea5][Tomato to hikiniku no kare gakeudon [トマトと挽き肉のカレーがけうどん]​]] → [[id:2ef794ca-fa9f-4930-abfa-ffda8976fea5][Tomato to hikiniku no kare gakeudon \[トマトと挽き肉のカレーがけうどん\]]]
+: [[id:237a9437-2f59-43c3-adef-c6cdf8624362][Butatama Stamina Don [スタミナ豚玉丼]​]] → [[id:237a9437-2f59-43c3-adef-c6cdf8624362][Butatama Stamina Don \[スタミナ豚玉丼\]]]
+: [[id:b89d5ed6-68a9-4819-b2bd-846098d140a8][Takenoko no takikomi gohan [竹の子の炊きご飯]​]] → [[id:b89d5ed6-68a9-4819-b2bd-846098d140a8][Takenoko no takikomi gohan \[竹の子の炊きご飯\]]]
+: [[id:466e7b3f-01f5-48dd-8001-59f8f3d44658][Kouhaku namasu [紅白なます]​]] → [[id:466e7b3f-01f5-48dd-8001-59f8f3d44658][Kouhaku namasu \[紅白なます\]]]
+: [[id:e296f4f9-75f9-4993-a863-8e6dbd51125d][Asari on misoshiru [あさりのみそ汁]​]] → [[id:e296f4f9-75f9-4993-a863-8e6dbd51125d][Asari no misoshiru \[あさりのみそ汁\]]]
+: [[id:8a8e1435-1527-4dd0-b1c6-c80ac223e31c][Maguro no kimchi ae don [まぐろのキムチあえ丼]​]] → [[id:8a8e1435-1527-4dd0-b1c6-c80ac223e31c][Maguro no kimchi ae don \[まぐろのキムチあえ丼\]]]
+: [[id:f8441874-1b19-4b86-b109-c94557cae38d][Tako to yasai no italian salada [たこと野菜のイタリアンサラダ]​]] → [[id:f8441874-1b19-4b86-b109-c94557cae38d][Tako to yasai no italian salada \[たこと野菜のイタリアンサラダ\]]]
+: [[id:b37bdc39-353e-44c1-8fc1-16d1ce1e9d34][Jagaimo to tamanegi no misoshiru [じゃが芋と玉ねぎのみそ汁]​]] → [[id:b37bdc39-353e-44c1-8fc1-16d1ce1e9d34][Jagaimo to tamanegi no misoshiru \[じゃが芋と玉ねぎのみそ汁\]]]
+: [[id:88c42a01-edfc-4f70-ab40-16a56e58d0a9][Sanshoku don [三色丼]​]] → [[id:88c42a01-edfc-4f70-ab40-16a56e58d0a9][Sanshoku don \[三色丼\]]]
+: [[id:32fe6b4a-551a-4a5f-88bd-9de71b816b61][Meatballs [肉団子]​]] → [[id:32fe6b4a-551a-4a5f-88bd-9de71b816b61][Meatballs \[肉団子\]]]
+: [[id:04860b82-551f-4901-bb96-dbc28d279b88][Chinjaorosu [青椒肉絲]​]] → [[id:04860b82-551f-4901-bb96-dbc28d279b88][Chinjaorosu \[青椒肉絲\]]]
+: [[id:9347a1f3-4027-43de-b41c-4a458981f550][Buta niku to daikon no nimono [豚肉と大根の煮物]​]] → [[id:9347a1f3-4027-43de-b41c-4a458981f550][Buta niku to daikon no nimono \[豚肉と大根の煮物\]]]
+: [[id:97271e96-8c7c-4b5a-9c36-72ae9fea85bc][Hourensou to gobou no goma ae [ほうれんそうとごぼうのごまあえ]​]] → [[id:97271e96-8c7c-4b5a-9c36-72ae9fea85bc][Hourensou to gobou no goma ae \[ほうれんそうとごぼうのごまあえ\]]]
+: [[id:9a02d600-f02c-4bc6-b7a4-a7af9950a5e8][Tempura [天麩羅]​]] → [[id:9a02d600-f02c-4bc6-b7a4-a7af9950a5e8][Tempura \[天麩羅\]]]
+: [[id:4f766c9f-ead9-49c0-aad2-0e87523ea490][Shumai]] → [[id:4f766c9f-ead9-49c0-aad2-0e87523ea490][Shumai \[烧卖\]]]
+: [[id:130a6c5b-e733-4ddc-93dd-c6f733ca6002][Tamagoyaki]] → [[id:130a6c5b-e733-4ddc-93dd-c6f733ca6002][Maki tamago]]
+: [[id:80171384-e1f0-43ec-b3ca-254a737e8973][Curry pilaf [カレーピラフ]​]] → [[id:80171384-e1f0-43ec-b3ca-254a737e8973][Curry pilaf \[カレーピラフ\]]]
+: [[id:f9193ba9-2633-4a9c-83b8-8d0fd3de53c9][Gyoza [餃子]​]] → [[id:f9193ba9-2633-4a9c-83b8-8d0fd3de53c9][Gyoza \[餃子\]]]
+: [[id:4d8ac647-b6b2-45bf-aab4-94682ac3ed8d][Omurice [オムライス]​]] → [[id:4d8ac647-b6b2-45bf-aab4-94682ac3ed8d][Omurice \[オムライス\]]]
+: [[id:5af38254-b59f-4a75-addb-9d81e4ed37bc][Onsen tamago [温泉玉子]​]] → [[id:5af38254-b59f-4a75-addb-9d81e4ed37bc][Onsen tamago \[温泉玉子\]]]
+: [[id:30eb5482-0c86-4c97-bcbe-50fe03574a77][Maguro-zuke]] → [[id:30eb5482-0c86-4c97-bcbe-50fe03574a77][Maguro-zuke \[鮪づけ\]]]
+: [[id:d861ef8e-fb8b-44ab-ba7c-2c4da78b863a][Maguro]] → [[id:d861ef8e-fb8b-44ab-ba7c-2c4da78b863a][Maguro \[鮪\]]]
+: [[id:528da52f-50ad-440a-8418-4e77eab670ea][Saba [鯖]​]] → [[id:528da52f-50ad-440a-8418-4e77eab670ea][Saba \[鯖\]]]
+: [[id:551e7cb8-8e00-457b-896f-c528b2e31c82][Saba no misoni [さばの味噌煮]​]] → [[id:551e7cb8-8e00-457b-896f-c528b2e31c82][Saba no misoni \[さばの味噌煮\]]]
+: [[id:7b19a6c6-e121-40dd-9622-a60d7d27c9c3][Buri [鰤]​]] → [[id:7b19a6c6-e121-40dd-9622-a60d7d27c9c3][Buri \[鰤\]]]
+: [[id:2b8858d6-449f-4a19-a965-f9588f83eebe][Buri no teriyaki]] → [[id:2b8858d6-449f-4a19-a965-f9588f83eebe][Buri no teriyaki \[ぶりの照り焼き\]]]
+: [[id:aa85f36d-542c-4158-b722-3210e83e3f81][Sake [鮭]​]] → [[id:aa85f36d-542c-4158-b722-3210e83e3f81][Sake \[鮭\]]]
+: [[id:a5635eaf-6bf3-45d2-abc4-9ac3e201115a][Shishamo [柳葉魚]​]] → [[id:a5635eaf-6bf3-45d2-abc4-9ac3e201115a][Shishamo \[柳葉魚\]]]
+: [[id:419592e2-76d4-44e2-b73b-1708751995d3][Jako]] → [[id:419592e2-76d4-44e2-b73b-1708751995d3][Chirimen jako \[縮緬雑魚\]]]
+: [[id:8f0f2b51-99f5-42dc-badf-a9121c843cbf][Jako piman [じゃこピーマン]​]] → [[id:8f0f2b51-99f5-42dc-badf-a9121c843cbf][Jako piman \[じゃこピーマン\]]]
+: [[id:1f336a22-400c-4b22-b7e8-6117e7ade79a][Kyuri to Jako no pirikara itame [きゅうりとじゃこのピリ辛いため]​]] → [[id:1f336a22-400c-4b22-b7e8-6117e7ade79a][Kyuri to Jako no pirikara itame \[きゅうりとじゃこのピリ辛いため\]]]
+: [[id:c37d43d4-7934-4baf-b898-a1f435c9e872][Jako, peanuts tofu salada [じゃこ、ピーナッツ入り豆腐サラダ]​]] → [[id:c37d43d4-7934-4baf-b898-a1f435c9e872][Jako, peanuts tofu salada \[じゃこ、ピーナッツ入り豆腐サラダ\]]]
+: [[id:9d0f11a9-464a-40cf-bfbf-d482ecd7efe2][Ebi Fry [エビフライ]​]] → [[id:9d0f11a9-464a-40cf-bfbf-d482ecd7efe2][Ebi Fry \[エビフライ\]]]
+: [[id:8f95a5ae-2d6f-4409-86ab-fa03a9826f45][Agenasu [揚げナス]​]] → [[id:8f95a5ae-2d6f-4409-86ab-fa03a9826f45][Agenasu \[揚げナス\]]]
+: [[id:32d51f84-f800-4c0c-b9b9-40bcf2a208e9][Nabemono [鍋物]​]] → [[id:32d51f84-f800-4c0c-b9b9-40bcf2a208e9][Nabemono \[鍋物\]]]
+: [[id:547300e7-9439-4c03-85fd-59db8eda578b][Buchimgae [부침개]​]] → [[id:547300e7-9439-4c03-85fd-59db8eda578b][Buchimgae \[부침개\]]]
+: [[id:a62b190e-53fa-4c13-97c7-90fe082ee9dd][Okonomiyaki [お好み焼き]​]] → [[id:a62b190e-53fa-4c13-97c7-90fe082ee9dd][Okonomiyaki \[お好み焼き\]]]
+: [[id:bb6b4514-d7f8-494f-9390-7ece8689f21f][Congyoubing [葱油饼]​]] → [[id:bb6b4514-d7f8-494f-9390-7ece8689f21f][Congyoubing \[葱油饼\]]]
+: [[id:df60f94d-c719-44ff-b989-10617c367e5f][Harusame to nira no amakarani [はるさめとにらの甘辛煮]​]] → [[id:df60f94d-c719-44ff-b989-10617c367e5f][Harusame to nira no amakarani \[はるさめとにらの甘辛煮\]]]
+: [[id:f9f905d7-c4cf-4065-8034-2ec9d9ea162b][Harusame no kare itame [はるさめのカレー炒め]​]] → [[id:f9f905d7-c4cf-4065-8034-2ec9d9ea162b][Harusame no kare itame \[はるさめのカレー炒め\]]]
+: [[id:a59c5a8a-f474-4771-ae56-490acbf0301f][Niku dofu [肉豆腐]​]] → [[id:a59c5a8a-f474-4771-ae56-490acbf0301f][Niku dofu \[肉豆腐\]]]
+: [[id:2271c988-fd15-44b1-a196-c32d085384ef][Nikujaga [肉じゃが]​]] → [[id:2271c988-fd15-44b1-a196-c32d085384ef][Nikujaga \[肉じゃが\]]]
+: [[id:ff48daec-983a-44c2-8c57-88acd0092770][Bak chit gai [白切鸡]​]] → [[id:ff48daec-983a-44c2-8c57-88acd0092770][White cut chicken \[白切鸡\]]]
+: [[id:b5d77c4a-c80b-4445-bef9-511fe615e4ed][Yurinchi [油淋鶏]​]] → [[id:b5d77c4a-c80b-4445-bef9-511fe615e4ed][Yurinchi \[油淋鶏\]]]
+: [[id:1ba66115-20e8-493f-992e-f0b6e88feef1][Oyakodon [親子丼]​]] → [[id:1ba66115-20e8-493f-992e-f0b6e88feef1][Oyakodon \[親子丼\]]]
+: [[id:3c0b1995-89d0-40d9-b071-825728586b7b][Mapo tofu [麻婆豆腐]] → [[id:3c0b1995-89d0-40d9-b071-825728586b7b][Mapo tofu \[麻婆豆腐\]]]
+: [[id:62637203-e90b-4086-9ce0-e304feefbb5f][Pork]] → [[id:62637203-e90b-4086-9ce0-e304feefbb5f][Pig]]
+: [[id:b47bb92d-1697-4bdb-952a-6da895320022][Butaniku to negi no shio yaki [豚肉とねぎの塩焼き]​]] → [[id:b47bb92d-1697-4bdb-952a-6da895320022][Butaniku to negi no shio yaki \[豚肉とねぎの塩焼き\]]]
+: [[id:daa8638d-525a-487e-8596-03b435864216][Buta niku to kyabetsu no miso itame [豚肉とキャベツのみそいため]​]] → [[id:daa8638d-525a-487e-8596-03b435864216][Buta niku to kyabetsu no miso itame \[豚肉とキャベツのみそいため\]]]
+: [[id:8d559ac9-32f2-4cb1-8b3a-9a8738208f25][Pirikara buta shabu no okazu sarada [ピリ辛豚しゃぶのおかずサラダ]​]] → [[id:8d559ac9-32f2-4cb1-8b3a-9a8738208f25][Pirikara buta shabu no okazu sarada \[ピリ辛豚しゃぶのおかずサラダ\]]]
+: [[id:534627fa-d14f-401b-b114-e66ffa559350][Shougayaki [生姜焼き]​]] → [[id:534627fa-d14f-401b-b114-e66ffa559350][Shogayaki \[生姜焼き\]]]
+: [[id:717998dc-a7bc-4545-a185-a9fe5a27f5c0][Katsudon [カツ丼]​]] → [[id:717998dc-a7bc-4545-a185-a9fe5a27f5c0][Katsudon \[カツ丼\]]]
+: [[id:2406c1c6-b8c8-4a8b-901f-d9c54263db26][Otsumami kakuni [おつまみ角煮]​]] → [[id:2406c1c6-b8c8-4a8b-901f-d9c54263db26][Otsumami kakuni \[おつまみ角煮\]]]
+: [[id:c7fec0a0-20b3-4287-905e-860943845b57][Udon]] → [[id:c7fec0a0-20b3-4287-905e-860943845b57][Udon \[饂飩\]]]
+: [[id:815bb6bc-d41e-4394-ac48-eb3f5d1bfb56][Kimchi udon [キムチ焼うどん]​]] → [[id:815bb6bc-d41e-4394-ac48-eb3f5d1bfb56][Kimchi udon \[キムチ焼うどん\]]]
+: [[id:56cae21c-23bb-4bbf-a5fb-a95ddf1a4993][Ja-Ja Men [じゃじゃ麺]​]] → [[id:56cae21c-23bb-4bbf-a5fb-a95ddf1a4993][Ja-Ja Men \[じゃじゃ麺\]]]
+: [[id:0bac16e9-9475-4848-9412-17683d2db4b2][Spaghetti bolognese]] → [[id:0bac16e9-9475-4848-9412-17683d2db4b2][Pasta bolognese]]
+: [[id:1d9f5961-55a7-4fde-b540-25e967c65061][Fried rice [炒饭]​]] → [[id:1d9f5961-55a7-4fde-b540-25e967c65061][Fried rice \[炒饭\]]]
+: [[id:56efbb9e-b0b0-4110-adc5-21c3cbfdc15c][Tamago kake gohan [卵かけご飯]​]] → [[id:56efbb9e-b0b0-4110-adc5-21c3cbfdc15c][Tamago kake gohan \[卵かけご飯\]]]
+: [[id:2ca7bfe2-5527-4e3f-9290-262e3b9aa8d1][Onigiri [お握り]​]] → [[id:2ca7bfe2-5527-4e3f-9290-262e3b9aa8d1][Onigiri \[お握り\]]]
+: [[id:43ef2376-efeb-4e07-b18a-83184c0f3516][Yaki onigiri [焼きおにぎり]​]] → [[id:43ef2376-efeb-4e07-b18a-83184c0f3516][Yaki onigiri \[焼きおにぎり\]]]
+: [[id:9c059710-06eb-4cea-af0a-efccb55b701e][Tako]] → [[id:9c059710-06eb-4cea-af0a-efccb55b701e][Octopus]]
+: [[id:81065f94-30a9-4f65-9143-bd99fd54af1d][Takoyaki [たこ焼き]​]] → [[id:81065f94-30a9-4f65-9143-bd99fd54af1d][Takoyaki \[たこ焼き\]]]
+: [[id:daa8ef18-0ee5-44a1-bb7b-3cb99d53b265][Tako to kyuuri no sumiso ae [たこときゅうりの酢味噌和え]​]] → [[id:daa8ef18-0ee5-44a1-bb7b-3cb99d53b265][Tako to kyuuri no sumiso ae \[たこときゅうりの酢味噌和え\]]]
+: [[id:cbbd38b4-0152-409f-b91f-f1db47062d01][Tako kimchi [たこキムチ]​]] → [[id:cbbd38b4-0152-409f-b91f-f1db47062d01][Tako kimchi \[たこキムチ\]]]
+: [[id:cf9e54ab-1ff9-4376-b525-25ea2a040e1f][Ebi chili [エビチリ]​]] → [[id:cf9e54ab-1ff9-4376-b525-25ea2a040e1f][Ebi chili \[エビチリ\]]]
+: [[id:ee89ce6d-574f-46b6-8076-04db69952337][Asari no sakamushi [あさりの酒蒸し]​]] → [[id:ee89ce6d-574f-46b6-8076-04db69952337][Asari no sakamushi \[あさりの酒蒸し\]]]
+: [[id:3988e213-2f69-4efd-8149-c9ee5cb4ffba][Wakame to Tofu Miso Shiru [わかめと豆腐のみそ汁]​]] → [[id:3988e213-2f69-4efd-8149-c9ee5cb4ffba][Tofu and wakame miso soup \[わかめと豆腐のみそ汁\]]]
+: [[id:020f3e3a-ac5a-4907-bcf0-ec687903f21f][Hakusai to butaniku no chuuka soup [白菜と豚肉の中華スープ]​]] → [[id:020f3e3a-ac5a-4907-bcf0-ec687903f21f][Hakusai to butaniku no chuuka soup \[白菜と豚肉の中華スープ\]]]
+: [[id:b8306f4e-f0a3-4d7b-91ac-b612fa6c7cc3][Osechi ryouri]] → [[id:b8306f4e-f0a3-4d7b-91ac-b612fa6c7cc3][Osechi ryoury]]
+: [[id:dfe36eb7-614d-424d-8899-b7208472a970][Vegetables]] → [[id:dfe36eb7-614d-424d-8899-b7208472a970][Vegetable]]
+: [[id:fef3b759-000b-4f76-b2d7-316630249e94][Nasu to buta hikiniku no amamiso don [ナスと豚挽肉の甘味噌丼]​]] → [[id:fef3b759-000b-4f76-b2d7-316630249e94][Nasu to buta hikiniku no amamiso don \[ナスと豚挽肉の甘味噌丼\]]]
+: [[id:7176c32f-0d81-455e-b15b-f9b1db0cd48c][Nasu no agebitashi [なすの揚げびたし]​]] → [[id:7176c32f-0d81-455e-b15b-f9b1db0cd48c][Nasu no agebitashi \[なすの揚げびたし\]]]
+: [[id:d279518a-0f8f-405e-b841-9a5ba38a1245][Kyabetsu to aburaage no goma ae [キャベツと油揚のごまあえ]​]] → [[id:d279518a-0f8f-405e-b841-9a5ba38a1245][Kyabetsu to aburaage no goma ae \[キャベツと油揚のごまあえ\]]]
+: [[id:047f6d74-d951-4e4b-80f0-2438eabeb0ba][Ohitashi]] → [[id:047f6d74-d951-4e4b-80f0-2438eabeb0ba][Horenso no ohitashi \[お浸し\]]]
+: [[id:f0c41ed4-fb90-4054-9637-46bcda4af1d5][Daikon [大根]​]] → [[id:f0c41ed4-fb90-4054-9637-46bcda4af1d5][Daikon \[大根\]]]
+: [[id:544656be-0319-44e6-8d8b-eabc04c7e9c0][Mabo daikon [麻婆大根]​]] → [[id:544656be-0319-44e6-8d8b-eabc04c7e9c0][Mabo daikon \[麻婆大根\]]]
+: [[id:ae2f59d9-32d9-4fc5-b015-013e117e88ba][Kabocha to aburaage no nimono [かぼちゃと油揚げの煮物]​]] → [[id:ae2f59d9-32d9-4fc5-b015-013e117e88ba][Kabocha to aburaage no nimono \[かぼちゃと油揚げの煮物\]]]
+: [[id:104449a4-f9a5-4888-a1c5-bce230c781a7][Kabocha no nimono [かぼちゃの煮物]​]] → [[id:104449a4-f9a5-4888-a1c5-bce230c781a7][Kabocha no nimono \[かぼちゃの煮物\]]]
+: [[id:62dfa60d-083c-49c5-bfd2-09af6e029013][Komatsuna [小松菜]​]] → [[id:62dfa60d-083c-49c5-bfd2-09af6e029013][Komatsuna \[小松菜\]]]
+: [[id:115ea699-b435-44bf-a930-a7e9df489415][Komatsuna to aburaage no nibitashi [小松菜と油揚げの煮びたし]​]] → [[id:115ea699-b435-44bf-a930-a7e9df489415][Komatsuna to aburaage no nibitashi \[小松菜と油揚げの煮びたし\]]]
+: [[id:c4d8cf39-6183-4362-9929-c28b026a1ea0][Nira [ニラ]​]] → [[id:c4d8cf39-6183-4362-9929-c28b026a1ea0][Allium tuberosum]]
+: [[id:193bc60a-ed3d-4390-9d1b-91bb44a95eda][Poivron]] → [[id:193bc60a-ed3d-4390-9d1b-91bb44a95eda][Bell pepper]]
+: [[id:bdbb948e-c63a-4825-bb9a-e57dd84db931][Takenoko [竹の子]​]] → [[id:bdbb948e-c63a-4825-bb9a-e57dd84db931][Takenoko \[竹の子\]]]
+: [[id:5034857f-0ac1-4099-9579-5b1a0e637159][Tofu]] → [[id:5034857f-0ac1-4099-9579-5b1a0e637159][Tofu \[豆腐\]]]
+: [[id:5f2f2f72-5ea5-4b08-b643-190c8722ab78][Ratarouille]] → [[id:5f2f2f72-5ea5-4b08-b643-190c8722ab78][Ratatouille]]
+: [[id:d4eae66e-3152-4397-8044-132edba08411][Hiyashi tomato [冷やしトマト]​]] → [[id:d4eae66e-3152-4397-8044-132edba08411][Chilled tomatos]]
+: 2023-01-08 19:47:49,790-normalize_links[normalize_zettel_links:37]
+: INFO-Normalized 107 links in Recipes
+: Task finished in 6.82s
+
 * Func
 #+begin_src jupyter-python :async yes
 def func():
