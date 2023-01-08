@@ -26,7 +26,7 @@ def normalize_zettel_links(zettel: Zettel, zk: ZettelKasten):
         zid, otitle = tu
         z = zk[zid]
         if otitle != z.title:
-            new_link = f"[[id:{zid}][{z.title}]]"
+            new_link = f"[[id:{zid}][{z.title.strip()}]]"
             zas = zas.replace(link, new_link)
             print(f"{link} → {new_link}")
             n += 1
