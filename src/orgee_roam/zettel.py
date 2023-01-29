@@ -149,3 +149,6 @@ class Zettel:
             return float(s)
         else:
             return 0
+
+    def org_link(self, title: str | None = None) -> str:
+        return f"[[id:{self.uuid}][{title if title else self.title}]]"
