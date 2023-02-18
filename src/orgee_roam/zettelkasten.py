@@ -98,7 +98,7 @@ class ZettelKasten(MutableMapping):
                 d.setdefault(ca, []).append(z)
             for ca, zs in d.items():
                 if len(zs) > 1:
-                    print(f"{ca}: {', '.join(z.olp_str() for z in zs)}")
+                    print(f"{ca}: {', '.join(str(z) for z in zs)}")
             raise Exception("Some props are in multiple zettels!")
 
     def is_json_outdated(self) -> bool:
