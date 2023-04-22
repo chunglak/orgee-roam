@@ -3,15 +3,18 @@ from __future__ import annotations  # PEP 585
 import datetime
 from typing import TYPE_CHECKING
 
+from orgee.orgnode import OrgNode
+
 if TYPE_CHECKING:
     from orgee_roam import ZettelKasten, Zettel
 
 
 def make_finder_files(zk: ZettelKasten):
-    def add_info_func(z: Zettel) -> str:
+    def heading(z: Zettel) -> OrgNode:
+        s = z.org_link()
         uts = z.updated_ts
         cts = z.creation_ts()
-        return "(%s | /%s/)" % (
+        s += " (%s | /%s/)" % (
             datetime.datetime.fromtimestamp(uts).strftime("%a %d %b %Y, %H:%M")
             if uts
             else "–",
@@ -19,6 +22,7 @@ def make_finder_files(zk: ZettelKasten):
             if cts
             else "–",
         )
+        return z.org_heading(heading=s, add_olp=True)
 
     zettels = sorted(
         zk.zettels,
@@ -28,8 +32,9 @@ def make_finder_files(zk: ZettelKasten):
     zk.make_list_zettel(
         zettels=zettels,
         title="Nodes by updated timestamp",
-        add_info_func=add_info_func,
-        filename="zettel-finder-new.org",
+        tags={"auto"},
+        headings_dic={z.uuid: heading(z) for z in zettels},
+        filename="zettel-finder.org",
         overwrite=True,
         exclude_from_roam=True,
     )
@@ -37,23 +42,23 @@ def make_finder_files(zk: ZettelKasten):
     zk.make_list_zettel(
         zettels=zettels,
         title="Restricted nodes by updated timestamp",
-        add_info_func=add_info_func,
-        filename="zettel-finder-restricted-new.org",
+        tags={"auto"},
+        headings_dic={z.uuid: heading(z) for z in zettels},
+        filename="zettel-finder-restricted.org",
         overwrite=True,
         exclude_from_roam=True,
     )
-    # zf.make_links_file(fn="zettel-finder-restricted.org")
 
 
 def make_finder_files_by_creation_ts(zk: ZettelKasten):
-    def add_info_func(z: Zettel) -> str:
+    def heading(z: Zettel) -> OrgNode:
+        s = z.org_link()
         ts = z.creation_ts()
         if ts:
-            return datetime.datetime.fromtimestamp(ts).strftime(
+            s += " " + datetime.datetime.fromtimestamp(ts).strftime(
                 "(%a %d %b %Y, %H:%M)"
             )
-        else:
-            return ""
+        return z.org_heading(heading=s, add_olp=True)
 
     zettels = sorted(
         zk.zettels,
@@ -63,8 +68,9 @@ def make_finder_files_by_creation_ts(zk: ZettelKasten):
     zk.make_list_zettel(
         zettels=zettels,
         title="Nodes by creation timestamp",
-        add_info_func=add_info_func,
-        filename="zettel-finder-by-ts-new.org",
+        tags={"auto"},
+        headings_dic={z.uuid: heading(z) for z in zettels},
+        filename="zettel-finder-by-ts.org",
         overwrite=True,
         exclude_from_roam=True,
     )
@@ -72,29 +78,13 @@ def make_finder_files_by_creation_ts(zk: ZettelKasten):
     zk.make_list_zettel(
         zettels=zettels,
         title="Restricted nodes by creation timestamp",
-        add_info_func=add_info_func,
-        filename="zettel-finder-by-ts-restricted-new.org",
+        tags={"auto"},
+        headings_dic={z.uuid: heading(z) for z in zettels},
+        filename="zettel-finder-by-ts-restricted.org",
         overwrite=True,
         exclude_from_roam=True,
     )
 
 
 def restrict_zettels(zettels: list[Zettel]) -> list[Zettel]:
-    exclude_tags = {
-        "album",
-        "article",
-        "band",
-        "book",
-        "character",
-        "country",
-        "movie",
-        "painting",
-        "paper",
-        "person",
-        "song",
-        "stock",
-        "video",
-        "webclip",
-        "youtube",
-    }
-    return [z for z in zettels if not exclude_tags & z.all_tags]
+    return [z for z in zettels if z.is_restricted()]

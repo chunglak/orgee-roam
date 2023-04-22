@@ -60,7 +60,7 @@ GPL-3.0-or-later
 ** Python version
 #+name: python-version
 #+begin_src conf
-3.10.8
+3.10.10
 #+end_src
 ** Minimal python version
 #+name: minimal-python-version
@@ -237,7 +237,7 @@ Commands specific to the project
 #+call: make-file-path()
 Create a pyenv venv for the project
 #+begin_src bash :shebang #!/bin/bash
-set -eu
+set -e
 
 # Reset venv
 venv="<<project-name>>"

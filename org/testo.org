@@ -35,6 +35,66 @@ print("Init done")
 #+RESULTS:
 : Init done
 
+* Make finder files
+#+begin_src jupyter-python :async yes
+def func():
+    # pylint: disable=import-outside-toplevel
+    import os.path
+    from orgee_roam import ZettelKasten
+
+    zk = ZettelKasten()
+    zk.make_finder_files()
+    zk.make_finder_files_by_creation_ts()
+
+
+runf(func)  # pylint: disable=undefined-variable
+#+end_src
+
+#+RESULTS:
+: 2023-04-22 15:01:05,140-update_cache[update_cache:50]
+: INFO-Removing «Restricted nodes by creation timestamp (4321 zettels)»
+: 2023-04-22 15:01:05,141-update_cache[update_cache:50]
+: INFO-Removing «Nodes by updated timestamp (34828 zettels)»
+: 2023-04-22 15:01:05,142-update_cache[update_cache:50]
+: INFO-Removing «Restricted nodes by updated timestamp (4319 zettels)»
+: 2023-04-22 15:01:05,144-update_cache[update_cache:50]
+: INFO-Removing «Nodes by creation timestamp (34830 zettels)»
+: 2023-04-22 15:01:05,910-update_cache[update_cache:75]
+: INFO-Removing Restricted nodes by creation timestamp (4323 zettels)
+: 2023-04-22 15:01:05,912-update_cache[update_cache:88]
+: INFO-Updated «Restricted nodes by creation timestamp (4313 zettels)»
+: 2023-04-22 15:01:07,826-update_cache[update_cache:75]
+: INFO-Removing Nodes by creation timestamp (34832 zettels)
+: 2023-04-22 15:01:07,827-update_cache[update_cache:88]
+: INFO-Updated «Nodes by creation timestamp (34832 zettels)»
+: 2023-04-22 15:01:07,994-update_cache[update_cache:75]
+: INFO-Removing Restricted nodes by updated timestamp (4321 zettels)
+: 2023-04-22 15:01:07,996-update_cache[update_cache:88]
+: INFO-Updated «Restricted nodes by updated timestamp (4311 zettels)»
+: 2023-04-22 15:01:10,025-update_cache[update_cache:75]
+: INFO-Removing Nodes by updated timestamp (34830 zettels)
+: 2023-04-22 15:01:10,026-update_cache[update_cache:88]
+: INFO-Updated «Nodes by updated timestamp (34830 zettels)»
+: 2023-04-22 15:01:10,034-update_cache[update_cache:123]
+: INFO-12 nodes changed
+: 2023-04-22 15:01:15,659-make_zettel[make_zettel:87]
+: INFO-Created file /home/chunglak/zettelkasten/zettel-finder.org for node Nodes by updated timestamp (34826 zettels)
+: 2023-04-22 15:01:20,403-list_zettel[make_list_zettel:55]
+: INFO-Saved 34826 links to /home/chunglak/zettelkasten/zettel-finder.org
+: 2023-04-22 15:01:20,570-make_zettel[make_zettel:87]
+: INFO-Created file /home/chunglak/zettelkasten/zettel-finder-restricted.org for node Restricted nodes by updated timestamp (4303 zettels)
+: 2023-04-22 15:01:25,283-list_zettel[make_list_zettel:55]
+: INFO-Saved 4303 links to /home/chunglak/zettelkasten/zettel-finder-restricted.org
+: 2023-04-22 15:01:26,214-make_zettel[make_zettel:87]
+: INFO-Created file /home/chunglak/zettelkasten/zettel-finder-by-ts.org for node Nodes by creation timestamp (34828 zettels)
+: 2023-04-22 15:01:31,194-list_zettel[make_list_zettel:55]
+: INFO-Saved 34828 links to /home/chunglak/zettelkasten/zettel-finder-by-ts.org
+: 2023-04-22 15:01:31,330-make_zettel[make_zettel:87]
+: INFO-Created file /home/chunglak/zettelkasten/zettel-finder-by-ts-restricted.org for node Restricted nodes by creation timestamp (4305 zettels)
+: 2023-04-22 15:01:36,026-list_zettel[make_list_zettel:55]
+: INFO-Saved 4305 links to /home/chunglak/zettelkasten/zettel-finder-by-ts-restricted.org
+: Task finished in 34.29s
+
 * Zettelkasten
 #+begin_src jupyter-python :async yes
 def func():

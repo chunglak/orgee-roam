@@ -99,6 +99,7 @@ class ZettelKasten(MutableMapping):
             for ca, zs in d.items():
                 if len(zs) > 1:
                     print(f"{ca}: {', '.join(str(z) for z in zs)}")
+            # pylint: disable=broad-exception-raised
             raise Exception("Some props are in multiple zettels!")
 
     def is_json_outdated(self) -> bool:
@@ -149,28 +150,32 @@ class ZettelKasten(MutableMapping):
         self,
         zettels: list[Zettel],
         title: str,
-        # add_info_func=None,
+        tags: set[str] | None = None,
+        headings_dic: dict[str, OrgNode] | None = None,
         filename: str | None = None,
         zid: str | None = None,
         overwrite=False,
         exclude_from_roam: bool = False,
-        use_id: bool = True,
-        add_file_url: bool = False,
+        add_tags: bool = True,
         add_aliases: bool = True,
+        add_olp: bool = True,
+        todo: str | None = None,
         save_cache: bool = True,
     ) -> Zettel:
         return make_list_zettel(
             zk=self,
             zettels=zettels,
             title=title,
-            # add_info_func=add_info_func,
+            tags=tags,
+            headings_dic=headings_dic,
             filename=filename,
             zid=zid,
             overwrite=overwrite,
             exclude_from_roam=exclude_from_roam,
-            use_id=use_id,
-            add_file_url=add_file_url,
+            add_tags=add_tags,
             add_aliases=add_aliases,
+            add_olp=add_olp,
+            todo=todo,
             save_cache=save_cache,
         )
 

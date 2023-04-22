@@ -6,6 +6,26 @@ import time
 from dataclasses import dataclass, field
 
 from orgee import OrgNode, remove_org_markup, OrgProperties
+from orgee.util import clean_text
+
+NOT_RESTRICTED_TAGS = {
+    "album",
+    "article",
+    "auto",
+    "band",
+    "book",
+    "character",
+    "country",
+    "movie",
+    "painting",
+    "paper",
+    "person",
+    "song",
+    "stock",
+    "video",
+    "webclip",
+    "youtube",
+}
 
 
 @dataclass
@@ -122,6 +142,7 @@ class Zettel:
             else:
                 node = root.find_olp(self.olp[1:])
                 if not node:
+                    # pylint: disable=broad-exception-raised
                     raise Exception(
                         f"Could not find node {self.olp} in {self.filename}"
                     )
@@ -150,5 +171,37 @@ class Zettel:
         else:
             return 0
 
+    @property
+    def url(self) -> str:
+        return f"id:{self.uuid}"
+
     def org_link(self, title: str | None = None) -> str:
-        return f"[[id:{self.uuid}][{title if title else self.title}]]"
+        return f"[[{self.url}][{title if title else self.title}]]"
+
+    def org_heading(
+        self,
+        heading: str | None = None,
+        title: str | None = None,
+        add_tags: bool = True,
+        add_aliases: bool = False,
+        add_olp: bool = False,
+        todo: str | None = None,
+    ) -> OrgNode:
+        heading = heading if heading else self.org_link(title=title)
+        if add_aliases and (aliases := self.aliases):
+            heading += " | %s" % " | ".join(
+                f"[[{self.url}][{alias}]]" for alias in aliases
+            )
+        if add_olp and len(self.olp) > 1:
+            heading = (
+                " > ".join(map(clean_text, self.olp[:-1])) + " > " + heading
+            )
+        node = OrgNode(title=heading)
+        if add_tags:
+            node.tags = self.tags.copy()
+        if todo:
+            node.todo = todo
+        return node
+
+    def is_restricted(self) -> bool:
+        return not NOT_RESTRICTED_TAGS & self.all_tags
