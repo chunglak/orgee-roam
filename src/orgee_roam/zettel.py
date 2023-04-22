@@ -205,3 +205,6 @@ class Zettel:
 
     def is_restricted(self) -> bool:
         return not NOT_RESTRICTED_TAGS & self.all_tags
+
+    def is_excluded(self) -> bool:
+        return bool(self.properties.first_property_by_key("ROAM_EXCLUDE"))

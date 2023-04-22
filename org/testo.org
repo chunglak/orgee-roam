@@ -95,6 +95,29 @@ runf(func)  # pylint: disable=undefined-variable
 : INFO-Saved 4305 links to /home/chunglak/zettelkasten/zettel-finder-by-ts-restricted.org
 : Task finished in 34.29s
 
+* Testo exclude
+#+begin_src jupyter-python :async yes
+def func():
+    # pylint: disable=import-outside-toplevel
+    from orgee_roam import ZettelKasten
+
+    zk = ZettelKasten()
+    zid = "042c6b2c-ff5b-42dc-ae66-ec1063be02bf"
+    zid = "8e9d1a34-bd5c-4a3e-954a-98735e6cf3d2"
+    z = zk[zid]
+    p = z.properties.first_property_by_key("ROAM_EXCLUDE")
+    print(p)
+
+
+runf(func)  # pylint: disable=undefined-variable
+#+end_src
+
+#+RESULTS:
+: 2023-04-22 15:05:55,456-update_cache[update_cache:127]
+: INFO-No node changed
+: None
+: Task finished in 7.75s
+
 * Zettelkasten
 #+begin_src jupyter-python :async yes
 def func():
