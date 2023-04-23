@@ -182,6 +182,7 @@ class Zettel:
         self,
         heading: str | None = None,
         title: str | None = None,
+        add_all_tags: bool = True,
         add_tags: bool = True,
         add_aliases: bool = False,
         add_olp: bool = False,
@@ -197,7 +198,9 @@ class Zettel:
                 " > ".join(map(clean_text, self.olp[:-1])) + " > " + heading
             )
         node = OrgNode(title=heading)
-        if add_tags:
+        if add_all_tags:
+            node.tags = self.all_tags.copy()
+        elif add_tags:
             node.tags = self.tags.copy()
         if todo:
             node.todo = todo
