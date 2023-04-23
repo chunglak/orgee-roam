@@ -19,6 +19,7 @@ def make_list_zettel(
     zid: str | None = None,
     overwrite=False,
     exclude_from_roam: bool = False,
+    add_auto_tag: bool = True,
     add_tags: bool = True,
     add_aliases: bool = True,
     add_olp: bool = True,
@@ -29,6 +30,11 @@ def make_list_zettel(
         properties = OrgProperties.from_raw([("ROAM_EXCLUDE", "t")])
     else:
         properties = None
+    if add_auto_tag:
+        if tags:
+            tags.add("auto")
+        else:
+            tags = {"auto"}
     root_zettel = zk.make_zettel(
         title=f"{title} ({len(zettels)} zettels)",
         properties=properties,
