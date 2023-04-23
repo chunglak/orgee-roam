@@ -9,7 +9,7 @@ if TYPE_CHECKING:
     from orgee_roam import ZettelKasten, Zettel
 
 
-def make_finder_files(zk: ZettelKasten):
+def make_finder_files(zk: ZettelKasten, exclude_auto: bool = True):
     def heading(z: Zettel) -> OrgNode:
         s = z.org_link()
         uts = z.updated_ts
@@ -29,6 +29,8 @@ def make_finder_files(zk: ZettelKasten):
         key=lambda z: z.updated_ts,
         reverse=True,
     )
+    if exclude_auto:
+        zettels = [z for z in zettels if "auto" not in z.tags]
     zk.make_list_zettel(
         zettels=zettels,
         title="Nodes by updated timestamp",
@@ -50,7 +52,9 @@ def make_finder_files(zk: ZettelKasten):
     )
 
 
-def make_finder_files_by_creation_ts(zk: ZettelKasten):
+def make_finder_files_by_creation_ts(
+    zk: ZettelKasten, exclude_auto: bool = True
+):
     def heading(z: Zettel) -> OrgNode:
         s = z.org_link()
         ts = z.creation_ts()
@@ -65,6 +69,8 @@ def make_finder_files_by_creation_ts(zk: ZettelKasten):
         key=lambda z: z.creation_ts(),
         reverse=True,
     )
+    if exclude_auto:
+        zettels = [z for z in zettels if "auto" not in z.tags]
     zk.make_list_zettel(
         zettels=zettels,
         title="Nodes by creation timestamp",
