@@ -20,6 +20,7 @@ NOT_RESTRICTED_TAGS = {
     "painting",
     "paper",
     "person",
+    "single",
     "song",
     "stock",
     "video",
