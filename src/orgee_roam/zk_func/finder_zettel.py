@@ -11,18 +11,24 @@ if TYPE_CHECKING:
 
 def make_finder_files(zk: ZettelKasten, exclude_auto: bool = True):
     def heading(z: Zettel) -> OrgNode:
-        s = z.org_link()
+        node = z.org_heading(add_olp=True, add_aliases=True)
         uts = z.updated_ts
         cts = z.creation_ts()
-        s += " (%s | /%s/)" % (
-            datetime.datetime.fromtimestamp(uts).strftime("%a %d %b %Y, %H:%M")
+        ts1 = (
+            datetime.datetime.fromtimestamp(uts).strftime(
+                # "%a %d %b %Y, %H:%M"
+                "%Y-%m-%d %H:%M"
+            )
             if uts
-            else "–",
+            else "–"
+        )
+        ts2 = (
             datetime.datetime.fromtimestamp(cts).strftime("%d %b %y")
             if cts
-            else "–",
+            else "–"
         )
-        return z.org_heading(heading=s, add_olp=True)
+        node.title = f"={ts1}= {node.title} /{ts2}/"
+        return node
 
     zettels = sorted(
         zk.zettels,
@@ -56,13 +62,14 @@ def make_finder_files_by_creation_ts(
     zk: ZettelKasten, exclude_auto: bool = True
 ):
     def heading(z: Zettel) -> OrgNode:
-        s = z.org_link()
+        node = z.org_heading(add_olp=True, add_aliases=True)
         ts = z.creation_ts()
         if ts:
-            s += " " + datetime.datetime.fromtimestamp(ts).strftime(
-                "(%a %d %b %Y, %H:%M)"
+            tss = datetime.datetime.fromtimestamp(ts).strftime(
+                "%a %d %b %Y, %H:%M"
             )
-        return z.org_heading(heading=s, add_olp=True)
+            node.title = f"={tss}= {node.title}"
+        return node
 
     zettels = sorted(
         zk.zettels,
