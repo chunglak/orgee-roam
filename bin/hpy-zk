@@ -1,0 +1,136 @@
+#!/bin/env python3
+
+from __future__ import annotations  # PEP 585
+
+# ------------------------------
+# Imports
+# ------------------------------
+import argparse
+import logging
+import os
+import sys
+from collections.abc import Callable
+
+# ------------------------------
+# Constants
+# ------------------------------
+
+# ------------------------------
+# Additional code
+# ------------------------------
+
+
+# ------------------------------
+# CLI interface
+# ------------------------------
+def add_cmd(
+    cmd: Callable[[argparse.Namespace], None], **kwds
+) -> argparse.ArgumentParser:
+    "Add a command to the parser"
+    name = cmd.__name__.replace("_", "-")
+    if not kwds:
+        kwds = {}
+    if cmd.__doc__ and "description" not in kwds:
+        kwds["description"] = cmd.__doc__.strip()
+    subp = subparsers.add_parser(name, parents=[parser], add_help=False, **kwds)
+    subp.set_defaults(func=cmd)
+    return subp
+
+
+description = """
+Put description of the program here
+"""
+parser = argparse.ArgumentParser(description=description)
+parser.add_argument(
+    "--log-level",
+    choices=["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"],
+    type=str.upper,  # make choices case-insensitive
+    default="info",
+)
+subparsers = parser.add_subparsers(title="Actions")
+parser.add_argument("--log-file")
+
+
+# ------------------------------
+# Command
+# ------------------------------
+def update_finder(
+    args: argparse.Namespace,
+):  # pylint:disable=unused-argument
+    """
+    Update finder files
+    """
+    # pylint: disable=import-outside-toplevel
+    from orgee_roam import ZettelKasten
+
+    zk = ZettelKasten()
+    zk.make_finder_files()
+    zk.make_finder_files_by_creation_ts()
+
+
+subparser = add_cmd(update_finder)
+
+
+# ------------------------------
+# Command
+# ------------------------------
+def testo(args: argparse.Namespace):  # pylint:disable=unused-argument
+    """
+    A simple testo
+    """
+    print("This is a testo")
+
+
+subparser = add_cmd(testo)
+
+
+# ------------------------------
+# When no command provided
+# ------------------------------
+def no_command(args: argparse.Namespace):  # pylint:disable=unused-argument
+    print("No default command")
+
+
+parser.set_defaults(func=no_command)
+# ------------------------------
+# Actual parsing or command line
+# ------------------------------
+pargs = parser.parse_args()
+log_format = (
+    "%(asctime)s-%(module)s[%(funcName)s:%(lineno)s]\n%(levelname)s-%(message)s"
+)
+logging.basicConfig(level=pargs.log_level, format=log_format)
+if pargs.log_file:
+    logger = logging.getLogger()
+    handler = logging.FileHandler(pargs.log_file)
+    handler.setLevel(pargs.log_level)
+    handler.setFormatter(logging.Formatter(log_format))
+    logger.addHandler(handler)
+
+
+# ------------------------------
+# Convenience functions for CLI
+# ------------------------------
+def bye(msg=None, exit_code=0):
+    """
+    Replacement for the builtin parser.exit(status=0,message=None)
+    """
+    if msg:
+        if exit_code:
+            logging.critical(msg)
+        else:
+            logging.info(msg)
+    if exit_code:
+        sys.exit(exit_code)
+    else:
+        # Do that to exit without error instead of sys.exit(0)
+        # because the latter always causes an error
+        os._exit(0)  # pylint:disable=protected-access
+
+
+# ------------------------------
+# Make sure to keep this at the end
+# All functions need to be defined
+# before calling this
+# ------------------------------
+pargs.func(pargs)
