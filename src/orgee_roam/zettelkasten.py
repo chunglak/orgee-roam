@@ -13,6 +13,7 @@ from .zettel import Zettel
 from .zk_func.update_cache import update_cache
 from .zk_func.make_zettel import make_zettel
 from .zk_func.list_zettel import make_list_zettel
+from .zk_func.dead_links import check_dead_links
 from .zk_func.finder_zettel import (
     make_finder_files,
     make_finder_files_by_creation_ts,
@@ -186,3 +187,6 @@ class ZettelKasten(MutableMapping):
 
     def make_finder_files_by_creation_ts(self):
         make_finder_files_by_creation_ts(zk=self)
+
+    def check_dead_links(self):
+        return check_dead_links(self)
