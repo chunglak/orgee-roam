@@ -4,5 +4,5 @@ import os.path
 
 OPE = os.path.expanduser
 
-ZK_CACHE = OPE("~/.zk-cache.json")
-ZK_ROOT = OPE("~/zettelkasten")
+# ZK_CACHE = OPE("~/.zk-cache.json")
+# ZK_ROOT = OPE("~/zettelkasten")

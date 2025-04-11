@@ -5,6 +5,7 @@ dependencies = [
   "python-slugify[unidecode]",
   "orgee",
   "kombini",
+  "xdg-base-dirs~=6.0", # XDG directories
 ]
 requires-python = ">=3.12"
 authors = [{name = "Alfred Leung", email = "chunglak@gmail.com"}]

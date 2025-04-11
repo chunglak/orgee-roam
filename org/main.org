@@ -50,6 +50,7 @@ chunglak@gmail.com
 "python-slugify[unidecode]",
 "orgee",
 "kombini",
+"xdg-base-dirs~=6.0", # XDG directories
 #+end_src
 ** Dev dependencies
 #+name: project-dependencies-dev

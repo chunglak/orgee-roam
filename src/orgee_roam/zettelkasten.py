@@ -4,11 +4,13 @@ import datetime
 import json
 import os, os.path  # pylint: disable=multiple-imports
 from collections.abc import MutableMapping
+from pathlib import Path
 from typing import ValuesView
 
 from orgee import OrgNode, OrgProperties
 
-from .const import ZK_CACHE, ZK_ROOT
+# from .const import ZK_CACHE, ZK_ROOT
+from .config import Config
 from .zettel import Zettel
 from .zk_func.update_cache import update_cache
 from .zk_func.make_zettel import make_zettel
@@ -28,9 +30,15 @@ class ZettelKasten(MutableMapping):
         cache_fn: str | None = None,
         root: str | None = None,
         update_cache: bool = True,  # pylint: disable=redefined-outer-name
+        config_file: Path | str | None = None,
     ):
-        self.root = root if root else ZK_ROOT
-        self.cache_fn = cache_fn if cache_fn else ZK_CACHE
+        self.config = Config(config_file)
+        # self.root = root if root else ZK_ROOT
+        self.root = root if root else self.config.get("paths", "root")
+        # self.cache_fn = cache_fn if cache_fn else ZK_CACHE
+        self.cache_fn = (
+            cache_fn if cache_fn else self.config.get("paths", "cache")
+        )
         self.dic = self.load_json()
         self._dics_by_prop: dict[str, dict[str, Zettel]] = {}
         if update_cache:
