@@ -2,7 +2,7 @@ from __future__ import annotations  # PEP 585
 
 import datetime
 import json
-import os, os.path
+import os, os.path  # pylint: disable=multiple-imports
 from collections.abc import MutableMapping
 from typing import ValuesView
 
@@ -93,21 +93,19 @@ class ZettelKasten(MutableMapping):
         if len(dic) == len(pairs) or not check_unique:
             self._dics_by_prop[key] = dic
             return dic
-        else:
-            d: dict = {}
-            for ca, z in pairs:
-                d.setdefault(ca, []).append(z)
-            for ca, zs in d.items():
-                if len(zs) > 1:
-                    print(f"{ca}: {', '.join(str(z) for z in zs)}")
-            # pylint: disable=broad-exception-raised
-            raise Exception("Some props are in multiple zettels!")
+        d: dict = {}
+        for ca, z in pairs:
+            d.setdefault(ca, []).append(z)
+        for ca, zs in d.items():
+            if len(zs) > 1:
+                print(f"{ca}: {', '.join(str(z) for z in zs)}")
+        # pylint: disable=broad-exception-raised
+        raise Exception("Some props are in multiple zettels!")
 
     def is_json_outdated(self) -> bool:
         if os.path.isfile(self.cache_fn):
             return os.path.getmtime(self.cache_fn) < os.path.getmtime(self.root)
-        else:
-            return True
+        return True
 
     def update_cache(self) -> int:
         return update_cache(zk=self)

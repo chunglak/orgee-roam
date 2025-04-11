@@ -169,8 +169,7 @@ class Zettel:
     def creation_ts(self) -> float:
         if s := self.properties.first_property_by_key("CREATED_TS"):
             return float(s)
-        else:
-            return 0
+        return 0
 
     @property
     def url(self) -> str:

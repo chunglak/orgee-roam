@@ -1,0 +1,9 @@
+[flake8]
+max-line-length = 80
+# E401 multiple imports on one line
+# E741 ambiguous variable name
+# W503 linebreak before binary operator
+ignore =
+       E401,
+       E741,
+       W503,

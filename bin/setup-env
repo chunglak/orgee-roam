@@ -1,0 +1,20 @@
+#!/bin/bash
+set -eu
+
+uv sync
+source $PROJECT_ROOT/.venv/bin/activate
+
+# Add project source files to path
+PTHS=(
+	"$PROJECT_ROOT/src"
+)
+fn=$(python -c "from site import getsitepackages; print(getsitepackages()[0])")/venv.pth
+echo "Write in file $fn"
+echo "# Site packages for virtualenv" >"$fn"
+for pth in "${PTHS[@]}"; do
+	realpath "$pth" >>"$fn"
+done
+echo
+
+# Add project venv as a jupyter kernel (for access in org files)
+ipython kernel install --user --name="orgee-roam"

@@ -1,6 +1,25 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+[project]
+name = "orgee-roam"
+version = "0.0.6"
+dependencies = [
+  "python-slugify[unidecode]",
+  "orgee",
+  "kombini",
+]
+requires-python = ">=3.12"
+authors = [{name = "Alfred Leung", email = "chunglak@gmail.com"}]
+description = "Tools to manage a org-roam zettelkasten"
+readme = "README.md"
+
+[dependency-groups]
+dev = [
+  "python-lsp-server[all]~=1.12",
+  "black~=24.10", # Formatter
+  "mypy~=1.14", # typing linter
+  "pylint~=3.3", # linter
+  "pytest~=8.3", # testing framework
+  "ipykernel~=6.29", # for jupyter
+]
 
 [tool.black]
 line-length = 80

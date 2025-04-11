@@ -10,8 +10,7 @@ def parse_logs(
 ) -> list[dict] | None:
     if node := root.find_child_by_title(logs_subtree_name):
         return parse_node_logs(node=node)
-    else:
-        return None
+    return None
 
 
 def parse_node_logs(node: OrgNode) -> list[dict]:

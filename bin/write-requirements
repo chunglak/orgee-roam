@@ -1,0 +1,8 @@
+#!/bin/bash
+set -eu
+
+uv sync
+# Create requirements.txt for interoperability
+echo "Generating requirements.txt file"
+uv export --format requirements-txt > $PROJECT_ROOT/requirements.txt
+echo

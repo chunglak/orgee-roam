@@ -2,11 +2,14 @@
 .env*
 # include direnv files
 !.envrc
-# dist folder
-/dist
-# mypy
+
 .mypy_cache
-# python
-__pycache__
-# egg
-/src/*.egg-info
+
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+.venv
